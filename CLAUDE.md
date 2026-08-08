@@ -73,9 +73,17 @@ the intended direction under review. Do not describe a change as violating an
 
 ## Git discipline
 
-Commits are GPG-signed; identity and signing
-are pinned in this repository's local `.git/config`, so they do not depend on
-global settings.
+Commits are GPG-signed and carry an
+OpenTimestamps attestation: `gpg.program` points at `ots-git-gpg-wrapper.sh`,
+which signs and then stamps against the OpenTimestamps calendars. Identity and
+signing are pinned in this repository's local `.git/config`, so they do not
+depend on global settings.
+
+A fresh commit verifies as `Pending confirmation in Bitcoin blockchain` —
+that is normal, not a failure. On-chain attestation takes hours; upgrade the
+proof later with `ots upgrade`. History up to and including
+`docs: adopt Conventional Commits for commit subjects` was signed without a
+timestamp and is not retro-stamped.
 
 After each logical unit of work:
 
