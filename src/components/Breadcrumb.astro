@@ -1,0 +1,30 @@
+---
+import { breadcrumbFor } from '../utils/nav';
+
+interface Props {
+  /** Label for the current page; defaults to the page title. */
+  label: string;
+  lang?: string;
+}
+
+const { label, lang = Astro.currentLocale ?? 'en' } = Astro.props;
+const crumbs = breadcrumbFor(Astro.url.pathname, label, lang);
+---
+{crumbs && (
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="container">
+      <ol>
+        {crumbs.map((crumb, i) => (
+          <li>
+            {crumb.href ? (
+              <a href={crumb.href}>{crumb.label}</a>
+            ) : (
+              <span aria-current="page">{crumb.label}</span>
+            )}
+            {i < crumbs.length - 1 && <span class="breadcrumb-sep" aria-hidden="true">/</span>}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </nav>
+)}

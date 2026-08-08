@@ -1,12 +1,13 @@
 ---
-import Breadcrumbs from './Breadcrumbs.astro';
 import { localizedPath } from '../lib/i18n';
+// `crumbs` is accepted but no longer rendered here: the breadcrumb is emitted
+// once by BaseLayout as a bar under the header. Kept in the signature so the
+// existing call sites keep type-checking.
 const { eyebrow, title, lead, crumbs = [], actions = [] } = Astro.props;
 const lang = String(Astro.currentLocale ?? Astro.params.lang ?? 'en');
 ---
 <section class="page-hero">
   <div class="container">
-    <Breadcrumbs items={crumbs} />
     <p class="eyebrow">{eyebrow}</p>
     <h1>{title}</h1>
     <p class="lead">{lead}</p>

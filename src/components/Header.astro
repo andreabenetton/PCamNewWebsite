@@ -1,7 +1,20 @@
 ---
 import { nav } from '../data/site';
+import { navItemState } from '../utils/nav';
 const { lang = Astro.currentLocale ?? 'en' } = Astro.props;
 const localize = (href: string) => href.replace(/^\/en\//, `/${lang}/`);
+const pathname = Astro.url.pathname;
+
+const items = nav.map((item) => {
+  const state = navItemState(item.href, pathname);
+  return {
+    ...item,
+    href: localize(item.href),
+    isActive: state !== null,
+    // 'page' only for an exact match; an ancestor section is aria-current="true".
+    ariaCurrent: state === 'page' ? 'page' : state === 'section' ? 'true' : undefined
+  };
+});
 ---
 <header class="site-header">
   <div class="container header-inner">
@@ -9,7 +22,11 @@ const localize = (href: string) => href.replace(/^\/en\//, `/${lang}/`);
       <img src="/brand/pcam-logo.webp" alt="PCam — The automation solution" width="247" height="90" />
     </a>
     <nav class="desktop-nav" aria-label="Primary navigation">
-      {nav.map((item) => <a href={localize(item.href)}>{item.label}</a>)}
+      {items.map((item) => (
+        <a href={item.href} class:list={[{ 'is-active': item.isActive }]} aria-current={item.ariaCurrent}>
+          {item.label}
+        </a>
+      ))}
     </nav>
     <div class="header-actions">
       <span class="lang-chip" aria-label="Current language">{lang.toUpperCase()} <span aria-hidden="true">·</span></span>
@@ -21,7 +38,11 @@ const localize = (href: string) => href.replace(/^\/en\//, `/${lang}/`);
     </div>
   </div>
   <nav class="mobile-nav" id="mobile-nav" data-open="false" aria-label="Mobile navigation">
-    {nav.map((item) => <a href={localize(item.href)}>{item.label}</a>)}
+    {items.map((item) => (
+      <a href={item.href} class:list={[{ 'is-active': item.isActive }]} aria-current={item.ariaCurrent}>
+        {item.label}
+      </a>
+    ))}
     <a href={`/${lang}/support/`}>Customer support</a>
     <a href={`/${lang}/contact/`}>Talk to an engineer</a>
   </nav>

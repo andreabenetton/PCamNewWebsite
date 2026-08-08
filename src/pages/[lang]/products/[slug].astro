@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import ProductCard from '../../../components/ProductCard.astro';
 import ProductVisual from '../../../components/ProductVisual.astro';
 import StoryCard from '../../../components/StoryCard.astro';
@@ -30,7 +29,6 @@ const video = videos.find((v) => v.product === product.name);
   })}></script>
   <section class="page-hero">
     <div class="container">
-      <Breadcrumbs items={[{label:'Products',href:'/en/products/'},{label:product.name}]} />
       <div class="product-hero-grid">
         <div>
           <p class="eyebrow">{product.eyebrow}</p>

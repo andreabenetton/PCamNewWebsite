@@ -93,12 +93,28 @@ p { margin: 0 0 1.1rem; }
 /* Open Sans/Montserrat run wider than the previous stack, so header items are
    pinned to one line and the gap tightened to keep the bar on a single row. */
 .desktop-nav { display: flex; align-items: center; gap: 22px; font-size: .9rem; font-weight: 680; white-space: nowrap; }
-.desktop-nav a { color: var(--ink-2); }
+.desktop-nav a { color: var(--ink-2); position: relative; padding: 6px 0; }
 .desktop-nav a:hover { color: var(--pcam-red); }
+/* Active section: red plus an underline, so the state does not rely on colour
+   alone (WCAG 1.4.1). The bar is drawn on the header's bottom edge. */
+.desktop-nav a.is-active { color: var(--pcam-red); font-weight: 800; }
+.desktop-nav a.is-active::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -26px;
+  height: 3px; border-radius: 3px 3px 0 0; background: var(--pcam-red);
+}
 .header-actions { display: flex; gap: 10px; align-items: center; }
 .lang-chip { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; font-weight: 760; color: var(--steel); padding: 8px 10px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; }
 .mobile-toggle { display: none; border: 0; background: transparent; width: 44px; height: 44px; border-radius: 50%; }
 .mobile-nav { display: none; }
+
+/* Breadcrumb — second level and deeper only (see utils/nav.ts). */
+.breadcrumb { border-bottom: 1px solid var(--line); background: var(--surface); }
+.breadcrumb ol { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0; padding: 11px 0; list-style: none; font-size: .82rem; }
+.breadcrumb li { display: flex; align-items: center; gap: 8px; }
+.breadcrumb a { color: var(--steel); }
+.breadcrumb a:hover { color: var(--pcam-red); text-decoration: underline; }
+.breadcrumb [aria-current="page"] { color: var(--ink-2); font-weight: 700; }
+.breadcrumb-sep { color: var(--muted); }
 
 .hero { position: relative; overflow: hidden; background: linear-gradient(180deg, #fafbfc 0%, #fff 75%); }
 .hero::after { content: ""; position: absolute; width: 620px; height: 620px; border-radius: 50%; right: -250px; top: -260px; background: radial-gradient(circle, rgba(227,50,55,.12), rgba(227,50,55,0) 66%); pointer-events: none; }
@@ -188,8 +204,6 @@ p { margin: 0 0 1.1rem; }
 .page-hero { padding:clamp(70px,9vw,130px) 0 70px; background:linear-gradient(180deg,var(--surface),#fff); border-bottom:1px solid var(--line); }
 .page-hero h1 { font-size:clamp(3rem,6vw,6rem); max-width:980px; }
 .page-hero .lead { margin-top:24px; }
-.breadcrumbs { display:flex; flex-wrap:wrap; gap:8px; align-items:center; font-size:.75rem; color:var(--muted); margin-bottom:32px; }
-.breadcrumbs a:hover { color:var(--pcam-red); }
 
 .product-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
 .product-card { padding:26px; display:flex; flex-direction:column; min-height:310px; transition:transform .18s ease, box-shadow .18s ease; }
@@ -333,6 +347,8 @@ p { margin: 0 0 1.1rem; }
   .mobile-nav[data-open="true"] { display:block; position:absolute; top:68px; left:0; right:0; background:#fff; border-bottom:1px solid var(--line); padding:14px; box-shadow:var(--shadow-soft); }
   .mobile-nav a { display:block; padding:13px 14px; border-radius:10px; font-weight:700; }
   .mobile-nav a:hover { background:var(--surface); }
+  /* Left bar carries the state alongside the colour, matching the desktop rule. */
+  .mobile-nav a.is-active { color:var(--pcam-red); background:rgba(227,50,55,.07); box-shadow:inset 3px 0 0 var(--pcam-red); }
   .hero-grid { min-height:auto; }
   .hero-copy { padding:64px 0 24px; }
   .hero-proof { grid-template-columns:1fr 1fr; }
