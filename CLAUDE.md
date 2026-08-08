@@ -92,6 +92,38 @@ Commit messages must be short, specific, and scoped to the actual change.
 Do not leave completed logical units of work uncommitted.
 **Do not add a "Co-Authored-By" trailer to any commit message.**
 
+### Commit message format
+
+Subjects follow Conventional Commits:
+
+```
+type(scope): imperative subject, lower case, no trailing period
+```
+
+The scope is optional but preferred. Wrap the subject at ~72 characters and
+put the reasoning in the body — the body is the durable change record, since
+there is no changelog.
+
+| Type | Use for |
+|---|---|
+| `feat` | new user-visible capability or content system |
+| `fix` | corrected behaviour, including layout and accessibility defects |
+| `docs` | CLAUDE.md, ADRs, README and other prose |
+| `chore` | repo plumbing with no runtime effect (git config, ignore rules) |
+| `refactor` | restructuring with no behaviour change |
+| `build` / `ci` | build pipeline, deploy scripts, checks |
+
+Scopes in use: `adr`, `git`, `site`, `nav`, `brand`, `media`, `tools`, `deps`.
+
+Examples:
+
+```
+feat(nav): highlight the active section and add a breadcrumb
+fix(site): stop long product names widening the page on mobile
+docs(adr): convert to the canonical template, revert all to proposed
+chore(git): add .gitattributes, cover wrangler/env gaps in .gitignore
+```
+
 Never commit or push unless the user asks. Committing is not deploying:
 deployment stays gated on the explicit request described in *Operating model*.
 
