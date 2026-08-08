@@ -45,13 +45,21 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .eyebrow::before { content: ""; width: 28px; height: 2px; background: currentColor; }
 .section--dark .eyebrow, .section--red .eyebrow { color: #fff; }
 
-h1, h2, h3, h4 { margin: 0; line-height: 1.04; letter-spacing: -.035em; }
+/* Product names like "PCamToolManager" are single unbreakable tokens. At the
+   small-viewport h1 size their min-content width exceeds the container and
+   inflates the surrounding grid track, scrolling the whole page sideways.
+   `anywhere` (not `break-word`) is required: only it contributes soft-wrap
+   opportunities to min-content sizing, which is what sizes the track. */
+h1, h2, h3, h4 { margin: 0; line-height: 1.04; letter-spacing: -.035em; overflow-wrap: anywhere; }
 h1 { font-family: var(--font-display); font-size: clamp(3rem, 7vw, 6.8rem); font-weight: 720; }
 /* Play ships only 400/700, so heading weights stay on 700 to avoid faux-bold. */
 h2 { font-family: var(--font-heading); font-size: clamp(2.2rem, 4.5vw, 4.4rem); font-weight: 700; }
 h3 { font-family: var(--font-heading); font-size: clamp(1.35rem, 2.4vw, 2rem); font-weight: 700; }
 h4 { font-family: var(--font-heading); font-size: 1.05rem; font-weight: 700; }
 p { margin: 0 0 1.1rem; }
+/* Paths such as %programdata%\PCamSettings are unbreakable and otherwise widen
+   their grid track past the viewport — same min-content problem as headings. */
+code { overflow-wrap: anywhere; }
 .lead { font-size: clamp(1.15rem, 2vw, 1.45rem); line-height: 1.55; color: var(--ink-2); max-width: 760px; }
 .section--dark .lead, .section--red .lead { color: rgba(255,255,255,.76); }
 .small { font-size: .9rem; color: var(--steel); }
@@ -204,6 +212,11 @@ p { margin: 0 0 1.1rem; }
 .page-hero { padding:clamp(70px,9vw,130px) 0 70px; background:linear-gradient(180deg,var(--surface),#fff); border-bottom:1px solid var(--line); }
 .page-hero h1 { font-size:clamp(3rem,6vw,6rem); max-width:980px; }
 .page-hero .lead { margin-top:24px; }
+/* Story hero metric. The big size is sized for short numerics; phrase metrics
+   step down because their longest word otherwise exceeds the hero column and
+   widens the whole page (the grid track is min-content sized). */
+.story-metric { line-height:.9; color:var(--pcam-red); font-weight:780; letter-spacing:-.07em; font-size:clamp(4rem,9vw,8rem); overflow-wrap:anywhere; }
+.story-metric--phrase { font-size:clamp(2rem,4.4vw,3.6rem); letter-spacing:-.04em; }
 
 .product-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
 .product-card { padding:26px; display:flex; flex-direction:column; min-height:310px; transition:transform .18s ease, box-shadow .18s ease; }
@@ -218,6 +231,12 @@ p { margin: 0 0 1.1rem; }
 .filter-button[aria-pressed="true"] { background:var(--ink); color:#fff; border-color:var(--ink); }
 
 .product-hero-grid { display:grid; grid-template-columns:1.05fr .95fr; gap:70px; align-items:center; }
+/* Product names are long single tokens ("PCamToolManager"). Scale the hero
+   heading with the viewport on narrow screens so the name stays on one line
+   instead of breaking mid-word; overflow-wrap remains the backstop. */
+@media (max-width: 520px) {
+  .product-hero-grid h1 { font-size:clamp(1.9rem, 8.6vw, 3rem); letter-spacing:-.03em; }
+}
 .product-hero-visual { min-height:470px; border-radius:var(--radius-lg); background:var(--ink); position:relative; overflow:hidden; box-shadow:var(--shadow); }
 .product-hero-visual::before { content:""; position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px); background-size:28px 28px; }
 .product-hero-visual .orbit { position:absolute; width:360px; height:360px; border-radius:50%; border:1px solid rgba(255,255,255,.15); left:50%; top:50%; transform:translate(-50%,-50%); box-shadow:0 0 0 65px rgba(255,255,255,.025),0 0 0 130px rgba(255,255,255,.018); }
