@@ -23,14 +23,35 @@ Do not make production changes through the Cloudflare dashboard as a substitute 
 - Existing-customer tasks live under `/support/`.
 - Partner workspace is currently a non-functional, noindex UX mock.
 - SQL, license SOAP, protected downloads and authentication are intentionally not connected in this prototype.
+- Canonical content identity is independent from localized URL slugs. Use `src/data/i18n/routes.json` and the canonical IDs in product/story facts; never derive a translated URL by replacing only the locale prefix.
 
 ## Content rules
 
 - Preserve engineering meaning; do not invent product specifications or customer results.
-- Claims and selected technical values should be traceable to `CONTENT_SOURCES.md` and/or the legacy source URL in `src/data/products.ts` / `src/data/stories.ts`.
+- Claims and selected technical values should be traceable to `CONTENT_SOURCES.md` and/or the legacy source URL in product/story facts.
 - Prefer buyer problems and operational outcomes over generic marketing adjectives.
 - Keep product pages technically useful: problem, fit, capabilities, outcomes, specs, interfaces, evidence.
 - Keep case-study pages explicit about what is reported versus what still needs customer validation.
+- Canonical facts are language-neutral source records. Do not translate or rewrite facts in `src/data/products/facts.json` or `src/data/stories/facts.json` to make localized prose read better; put localized presentation in the locale copy instead.
+
+## Multilingual change workflow
+
+Localized content is **never propagated automatically** between languages.
+
+When a request adds, removes, or changes user-visible content in one language and at least one other locale is already implemented:
+
+1. Identify the canonical route/content ID and every implemented locale that already contains the equivalent content.
+2. Determine which translated pages, UI strings, product copy, story narrative, SEO metadata, internal links, or localized slugs are affected.
+3. **Ask the user whether the change should also be applied to those existing languages.** In the same question, propose concrete translations for each affected locale so the user can approve, edit, or decline them. Do not make the translations first and ask afterward.
+4. Apply only the locales the user explicitly approves. Never infer approval from the fact that equivalent pages exist.
+5. A source-language product/story/UI edit must increment its `revision`. Existing translated copies become stale until they are explicitly reviewed. For non-source locale copy, `reviewedAgainstRevision` records the source revision that the user/editor actually reviewed.
+6. If the user explicitly decides that a translated copy needs no textual change, `reviewedAgainstRevision` may advance only after that decision and only when the existing translation remains semantically correct. Do not use the field merely to silence the audit.
+7. A newly added canonical product or customer story requires an explicit decision for every already implemented locale before the multilingual audit can pass.
+8. Localized slugs may differ by language. Add or update the explicit route/content mapping; never mechanically mirror the English slug.
+9. Preserve original customer evidence. A translated customer quotation must live in localized story copy; the reported source quotation remains unchanged in canonical facts.
+10. Run `npm run audit:translations` after any locale, route, UI copy, product copy, or story copy change. A stale translation is a review task, not permission to machine-update it.
+
+This workflow applies to updates as well as new content. The goal is to keep languages aligned by explicit editorial decision without forcing them to be literal copies of one another.
 
 ## Media rules
 

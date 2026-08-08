@@ -33,7 +33,7 @@ Index and governance: [`ADR-MASTER.md`](ADR-MASTER.md). Format:
 | writing/amending an ADR, ADR status, governance, agent guardrails | **ADR-000** (+ ADR-MASTER lifecycle) |
 | page purpose, calls to action, whether a page should exist, marketing claims | **ADR-001** (+ ADR-007 voice) |
 | migrating legacy content, consolidating/splitting pages, 301 redirect map | **ADR-002** |
-| URLs, locales, hreflang, canonical, sitemap, navigation structure, SEO | **ADR-003** |
+| URLs, locales, translations, hreflang, canonical, sitemap, navigation structure, SEO | **ADR-003** |
 | routing, static vs server rendering, React islands, client-side JavaScript | **ADR-004** (+ ADR-011 budget) |
 | hosting, Workers, R2, Cloudflare Images, Stream, where assets live | **ADR-005** |
 | committing, branching, deploying, staging vs production, rollback | **ADR-006** |
@@ -73,11 +73,15 @@ must not dictate the new IA (§5 rule 4).
 ### ADR-003 — SEO-first multilingual information architecture under locale paths
 *Proposed.* Single domain, locale paths `/en/ /de/ /it/ /fr/ /es/ /pt/` (§2.1);
 English first, other locales reserved and never published as empty or
-low-quality copies (§5 rule 5). Public IA: Solutions, Applications, Products,
-Customer Stories, Knowledge, Company/Contact (§2.2). One canonical page per
-search intent; structured data, sitemap and metadata are part of the page
-model, not post-launch work (§5 rules 1, 4). Every public URL carries a locale
-prefix (§5 rule 6).
+low-quality copies (§5 rule 5). Canonical page/product/story identity is
+independent from localized slugs; equivalents resolve through explicit route or
+content mappings, never locale-prefix substitution (§5 rules 7–8). Canonical
+engineering facts and reported customer evidence stay separate from localized
+copy (§5 rule 9). Source copy is revisioned; existing translations are stale
+until explicitly reviewed (§5 rule 10). Agents must propose translations and
+ask which implemented locales to update rather than propagating changes
+automatically (§5 rule 11). Structured data, sitemap and metadata remain part
+of the page model (§5 rule 4).
 
 ### ADR-004 — Astro owns routing; static-first; React only for bounded islands
 *Proposed.* Astro owns routing; no client-side router may take it over (§5

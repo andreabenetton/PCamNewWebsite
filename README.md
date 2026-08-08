@@ -1,92 +1,208 @@
-# PCam Astro redesign
+# PCam website
 
-English-first, SEO-oriented redesign of pcam.com for tool, mould and high-mix precision manufacturing. This is **not** a 1:1 WordPress migration. The site is reorganized around buyer intent, engineering solutions, applications, customer evidence and support tasks.
+English-first, SEO-oriented redesign of pcam.com for tool, mould and high-mix precision manufacturing. This is **not** a 1:1 WordPress migration. The public site is organized around buyer problems, engineering solutions, applications, customer evidence and support tasks.
 
-## What is implemented
+## Current architecture
 
-- Astro 7 static-first site with React 19 islands where useful.
-- English site under `/en/`.
-- i18n routing reserved for `en`, `de`, `it`, `fr`, `es`, `pt`.
-- Solutions, Applications, Products, Customer Stories, Knowledge, Company, Partners, Support and Contact.
-- 20 structured product records.
-- customer-evidence pages based on current PCam references.
-- engineering knowledge content for tool/mould automation, MES and unattended CNC production.
-- mock Partner Area, downloads, manuals and license UX.
-- real PCam brand assets and a real automation rendering bundled locally.
-- protected legacy product-image manifest + read-only sync script.
-- SHA-256 media manifest generation for exact deduplication.
-- internal route/import audits that run before release.
-- Cloudflare Stream integration boundary.
-- Cloudflare Workers static-assets deployment configuration.
-- Git-clean deployment guard.
+- Astro 7 owns routing and static generation.
+- React 19 is used only for bounded interactive islands.
+- English is published under `/en/`.
+- `de`, `it`, `fr`, `es` and `pt` are reserved but are not published until reviewed content exists.
+- Cloudflare is the production target: Workers/static assets for the site, Stream for video, and R2/Images/static assets for migrated media where appropriate.
+- SQL, license SOAP, protected downloads and authentication remain outside the static prototype behind explicit future integration boundaries.
+- Local Git is the source of truth; deploy is a separate explicit action.
+
+See `CLAUDE.md` for agent operating rules and `docs/adr/ADR-DIGEST.md` for the reasoning behind the architecture.
+
+## Information architecture
+
+The acquisition journey is intentionally not a product catalogue first:
+
+```text
+Solutions -> Applications -> Customer evidence -> Contact
+```
+
+Products remain directly accessible for engineers who already know what they need. Existing-customer tasks live under `/support/`; partner content has its own public entry point and a noindex workspace mock.
+
+## Multilingual model
+
+A content item has a **canonical identity independent from its localized slug**.
+
+Static route equivalents live in:
+
+```text
+src/data/i18n/routes.json
+```
+
+For example, the same canonical route may eventually map to different slugs:
+
+```text
+en -> /en/applications/unattended-production/
+it -> /it/applicazioni/produzione-non-presidiata/
+de -> /de/anwendungen/unbemannte-fertigung/
+```
+
+Do not derive translated URLs by replacing `/en/` with another locale. Canonical/hreflang resolution uses explicit route or content identity.
+
+Locale publication state and locale metadata live in:
+
+```text
+src/data/i18n/locales.json
+```
+
+Shared navigation/template copy lives in:
+
+```text
+src/data/i18n/ui/<locale>.json
+```
+
+### Translation review workflow
+
+Translations are not propagated automatically.
+
+When user-visible source-language content changes and other locales are already implemented, Codex/Claude must identify the affected equivalents, **ask whether they should be updated, and propose the translations for approval**. Only explicitly approved locales are changed.
+
+Revision metadata makes this review state machine-checkable:
+
+- source copy carries `revision`;
+- non-source copy carries `reviewedAgainstRevision`;
+- a source revision change makes older translated copies stale;
+- `npm run audit:translations` reports missing or stale published-locale content.
+
+A user may explicitly decide that a target-language text remains valid without modification. Only after that review may its `reviewedAgainstRevision` advance.
+
+## Product content model
+
+Product engineering facts and editorial language are separate.
+
+```text
+src/data/products/
+  facts.json              canonical ID, product name, category, source facts
+  locales/
+    en.json               English slug and editorial copy
+    de.json               future reviewed German copy
+    ...
+  types.ts
+```
+
+`facts.json` preserves source-backed engineering facts. Localized files contain buyer-facing language, localized spec presentation and localized slugs. Do not change canonical facts merely to make a translation read better.
+
+`src/data/products.ts` assembles the canonical facts with the requested locale and exposes stable canonical-ID/path helpers.
+
+## Customer evidence model
+
+Customer evidence follows the same separation:
+
+```text
+src/data/stories/
+  facts.json              company, source metric, source quotation, product IDs
+  locales/
+    en.json               English narrative and slug
+    ...
+  types.ts
+```
+
+The reported source quotation is preserved in canonical facts. A translated quotation is explicit localized copy; it must not overwrite the reported source text.
+
+## SEO
+
+SEO is part of the content model rather than a post-launch task.
+
+- locale-prefixed public URLs;
+- canonical links;
+- hreflang generated from canonical route/content identity;
+- `x-default` points to the English equivalent of the same page, not always the home page;
+- locale-aware Open Graph locale;
+- Organization, Product and Breadcrumb structured data;
+- multilingual-ready sitemap generation;
+- noindex on non-functional protected-area mocks.
+
+The current sitemap contains the English public routes only. Adding an implemented locale extends it from the explicit localized route/product/story mappings.
+
+## Media
+
+The current PCam product images are streamed from legacy `/images/Module...` routes and require a permitted Referer/User-Agent. The migration manifest is `src/data/media.json`.
+
+```bash
+npm run media:sync
+npm run media:hash
+```
+
+`media:sync` performs read-only GET requests and writes downloaded files into this local repository. `media:hash` generates SHA-256 data for exact deduplication.
+
+During development media may live under `public/media`. For the final Cloudflare migration, set `PUBLIC_MEDIA_BASE_URL` to a Cloudflare-backed media domain; editorial content keeps stable logical asset references.
+
+Existing Cloudflare Stream videos should keep their UIDs. Import the current UID map into `src/data/videos.ts` or a generated map rather than re-encoding video by default.
 
 ## Local workflow
 
+Install from the committed lockfile:
+
 ```bash
-npm install
-npm run media:sync     # optional but recommended: fetch current PCam product media
-npm run media:hash     # SHA-256 manifest for exact deduplication
+npm ci
+```
+
+Optional legacy-media ingest:
+
+```bash
+npm run media:sync
+npm run media:hash
+```
+
+Develop and review locally:
+
+```bash
 npm run dev
 ```
 
-Before a release:
+Before a commit intended for release:
 
 ```bash
+npm run audit:translations
 npm run check
 npm run build
 npm run preview
 ```
 
-Commit the intended version to local Git. Publishing is deliberately separate:
+`npm run check` includes project/import checks, route checks, multilingual consistency checks and ADR consistency checks.
+
+## Release workflow
+
+Committing and publishing are separate operations.
 
 ```bash
 npm run deploy:staging
 npm run deploy:production
 ```
 
-The deploy scripts reject a dirty Git tree. **Agents must not deploy unless the user explicitly asks them to publish.** See `AGENTS.md` / `CLAUDE.md`.
+Deployment scripts reject a dirty Git tree. Agents must not deploy unless the user explicitly asks them to publish. Cloudflare dashboard edits do not replace repository changes, except for secrets or infrastructure state that cannot appropriately live in Git.
 
-## Media sync
-
-The current PCam product images are streamed from legacy `/images/Module...` routes and require a permitted Referer/User-Agent. The manifest is `src/data/media.json`.
-
-```bash
-npm run media:sync
-# or selected products only
-node scripts/sync-legacy-media.mjs pcammes pcamrobocube pcamgantry
-```
-
-The script performs GET requests only and writes downloaded files into this local repository. It does not modify WordPress or SQL. Once the media migration is finalized, set `PUBLIC_MEDIA_BASE_URL` (see `.env.example`) to a Cloudflare custom media domain backed by R2/Images/static assets without rewriting product copy.
-
-## Cloudflare target
-
-The current prototype is static, so it can deploy as Cloudflare Workers static assets from `dist/` using `wrangler.jsonc`. Dynamic server routes are intentionally deferred until SQL/auth/license/download integration is designed. Videos remain on Cloudflare Stream.
-
-Future large images/documents can move to R2/Cloudflare Images while the application keeps stable logical asset references.
-
-## Project structure
+## Main project structure
 
 ```text
 src/
-  components/       reusable Astro components + React island
-  data/             products, customer evidence, media and video maps
-  lib/              routing helpers
-  pages/[lang]/     locale-prefixed route tree
-  styles/           responsive design system
+  components/             reusable Astro components + bounded React islands
+  data/
+    i18n/                 locale state, canonical route map, shared UI copy
+    products/             canonical facts + per-locale product copy
+    stories/              canonical evidence + per-locale narratives
+    media.json            legacy media provenance map
+    videos.ts             Cloudflare Stream boundary
+  layouts/
+  lib/
+  pages/[lang]/           locale-prefixed route tree
+  styles/
 scripts/
-  sync-legacy-media.mjs
   audit-project.mjs
+  audit-routes.mjs
+  audit-translations.mjs
   generate-sitemap.mjs
+  sync-legacy-media.mjs
+  hash-media.mjs
   verify-clean-git.mjs
-public/
-  brand/
-  media/
+docs/adr/                 architecture decision records
 ```
 
 ## Content provenance
 
-See `CONTENT_SOURCES.md` and `INGEST_REPORT.md`. Product claims, selected specifications and customer quotations are based on the current English PCam website. The information architecture and editorial framing are newly written for this redesign.
-
-## Generation-environment note
-
-The container used to create this prototype could reach web content through research/download tools but its npm registry path did not expose Astro packages. `npm install` therefore could not be completed here. The project includes a dependency-light standard Astro setup and local source audit; the first `npm install` on the user's workstation should generate `package-lock.json`, which should then be committed to local Git.
+See `CONTENT_SOURCES.md` and `INGEST_REPORT.md`. Product claims, selected specifications and customer quotations are based on the English PCam source site. The new information architecture and editorial framing are deliberate redesign decisions, not a reproduction of the legacy WordPress structure.
