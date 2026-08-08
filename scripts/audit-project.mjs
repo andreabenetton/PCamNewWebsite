@@ -23,7 +23,7 @@ function resolveLocalImport(file, specifier) {
   const candidates = [
     base,
     `${base}.astro`, `${base}.ts`, `${base}.tsx`, `${base}.js`, `${base}.jsx`, `${base}.json`,
-    path.join(base, 'index.astro'), path.join(base, 'index.ts'), path.join(base, 'index.tsx')
+    path.join(base, 'index.astro'), path.join(base, 'index.ts'), path.join(base, 'index.tsx'), path.join(base, 'index.js')
   ];
   return candidates.some((candidate) => fs.existsSync(candidate));
 }
@@ -41,10 +41,8 @@ for (const file of files) {
   }
 }
 
-const productSource = fs.readFileSync(path.join(sourceRoot, 'data', 'products.ts'), 'utf8');
-const storySource = fs.readFileSync(path.join(sourceRoot, 'data', 'stories.ts'), 'utf8');
-const productCount = [...productSource.matchAll(/slug:\s*'([^']+)'/g)].length;
-const storyCount = [...storySource.matchAll(/slug:\s*'([^']+)'/g)].length;
+const productCount = JSON.parse(fs.readFileSync(path.join(sourceRoot, 'data', 'products', 'facts.json'), 'utf8')).length;
+const storyCount = JSON.parse(fs.readFileSync(path.join(sourceRoot, 'data', 'stories', 'facts.json'), 'utf8')).length;
 
 console.log(`audited ${files.length} source files; ${productCount} products; ${storyCount} customer-evidence records`);
 if (warnings.length || missingImports.length) {

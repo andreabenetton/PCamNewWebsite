@@ -3,13 +3,17 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHero from '../../../components/PageHero.astro';
 import ProductFilter from '../../../components/ProductFilter';
 import CtaPanel from '../../../components/CtaPanel.astro';
-import { products } from '../../../data/products';
+import { asLocale } from '../../../data/i18n/config';
+import { getUiCopy } from '../../../data/i18n/ui';
+import { getProducts } from '../../../data/products';
 export function getStaticPaths(){ return [{params:{lang:'en'}}]; }
 const { lang = 'en' } = Astro.params;
-const compact = products.map(({slug,name,eyebrow,category,summary,bestFor}) => ({slug,name,eyebrow,category,summary,bestFor}));
+const locale = asLocale(lang);
+const ui = getUiCopy(locale);
+const compact = getProducts(locale).map(({id,slug,name,eyebrow,category,summary,bestFor,path}) => ({id,slug,name,eyebrow,category,summary,bestFor,path}));
 ---
-<BaseLayout lang={lang} title="PCam products: automation, MES, monitoring, CAD/CAM" description="Browse PCam automation systems, MES, CNC monitoring, tool management, EDM CAD/CAM and CMM programming products.">
+<BaseLayout lang={locale} title="PCam products: automation, MES, monitoring, CAD/CAM" description="Browse PCam automation systems, MES, CNC monitoring, tool management, EDM CAD/CAM and CMM programming products.">
   <PageHero eyebrow="Product catalogue" title="Products, without forcing the buyer to start here." lead="The product catalogue remains available for engineers who already know what they need. New buyers are better served by Solutions and Applications." crumbs={[{label:'Products'}]} actions={[{label:'Browse by solution',href:'/en/solutions/'},{label:'Browse by application',href:'/en/applications/'}]} />
-  <section class="section"><div class="container"><ProductFilter products={compact} lang={lang} client:load /></div></section>
+  <section class="section"><div class="container"><ProductFilter products={compact} lang={locale} labels={ui.products} client:load /></div></section>
   <CtaPanel />
 </BaseLayout>

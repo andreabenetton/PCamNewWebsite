@@ -1,0 +1,74 @@
+export type UiCopy = {
+  revision: number;
+  reviewedAgainstRevision?: number;
+  accessibility: { skipToContent: string };
+  nav: Record<'solutions' | 'applications' | 'customerStories' | 'knowledge' | 'company', string>;
+  sections: Record<'home' | 'solutions' | 'applications' | 'customerStories' | 'knowledge' | 'company' | 'products' | 'support' | 'partners' | 'contact', string>;
+  header: {
+    primaryNavigation: string;
+    mobileNavigation: string;
+    currentLanguage: string;
+    support: string;
+    contact: string;
+    openMenu: string;
+  };
+  footer: {
+    description: string;
+    explore: string;
+    customers: string;
+    partners: string;
+    supportHub: string;
+    downloads: string;
+    manuals: string;
+    licenses: string;
+    technicalRequirements: string;
+    partnerNetwork: string;
+    partnerArea: string;
+    salesContact: string;
+    copyright: string;
+    localeStatus: string;
+  };
+  products: {
+    filterLabel: string;
+    categories: Record<string, string>;
+  };
+  productPage: {
+    discussApplication: string;
+    sourceLink: string;
+    whyItExists: string;
+    designedFor: string;
+    capabilities: string;
+    controlsTitle: string;
+    outcomes: string;
+    outcomesTitle: string;
+    technicalData: string;
+    technicalDataTitle: string;
+    technicalDataNote: string;
+    interfaces: string;
+    interfacesTitle: string;
+    seeSystem: string;
+    videoTitle: string;
+    videoNote: string;
+    videoFallback: string;
+    customerEvidence: string;
+    customerEvidenceTitle: string;
+    relatedProducts: string;
+    relatedProductsTitle: string;
+    ctaQuestion: string;
+    ctaText: string;
+  };
+  storyPage: {
+    eyebrow: string;
+    reportedOutcome: string;
+    sourceNote: string;
+    sourceLink: string;
+    solutionContext: string;
+    solutionContextTitle: string;
+    solutionContextText: string;
+    upgradeEyebrow: string;
+    upgradeTitle: string;
+    upgradeItems: string[];
+    ctaTitle: string;
+    ctaText: string;
+  };
+};

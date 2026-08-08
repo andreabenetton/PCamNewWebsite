@@ -1,0 +1,90 @@
+[
+  {
+    "id": "toolcraft-spindle-hours",
+    "company": "Toolcraft AG",
+    "productIds": [
+      "pcamgantry",
+      "pcamfmc",
+      "pcamcell"
+    ],
+    "source": "https://en.pcam.com/portfolio/pcamgantry-references/",
+    "reportedQuote": {
+      "text": "Each machine is producing over 7200 spindle hours annually.",
+      "locale": "en"
+    },
+    "metricSource": "7,200+"
+  },
+  {
+    "id": "vetimec-utilization",
+    "company": "Vetimec Soc. Coop.",
+    "productIds": [
+      "pcammes",
+      "pcammonitor",
+      "pcamcell"
+    ],
+    "source": "https://en.pcam.com/portfolio/pcammes-references/",
+    "reportedQuote": {
+      "text": "From 25% of spindle use ... to 65% ... in automatic.",
+      "locale": "en"
+    },
+    "metricSource": "25% → 65%"
+  },
+  {
+    "id": "braunform-diesink",
+    "company": "Braunform GmbH",
+    "productIds": [
+      "pcamdiesink",
+      "pcamcell"
+    ],
+    "source": "https://en.pcam.com/portfolio/pcamdiesink-references/",
+    "reportedQuote": {
+      "text": "Increase the productivity of the department by 30%.",
+      "locale": "en"
+    },
+    "metricSource": "+30%"
+  },
+  {
+    "id": "sfs-monitoring",
+    "company": "SFS Group Schweiz AG",
+    "productIds": [
+      "pcammonitor",
+      "pcammms"
+    ],
+    "source": "https://en.pcam.com/portfolio/pcammonitor-references/",
+    "reportedQuote": {
+      "text": "We can monitor 40 CNC erosion machines and keep our production under control.",
+      "locale": "en"
+    },
+    "metricSource": "40 CNC"
+  },
+  {
+    "id": "radar-machine-hours",
+    "company": "Radar Leather Division S.r.l.",
+    "productIds": [
+      "pcammes",
+      "pcammonitor",
+      "pcamrobocube"
+    ],
+    "source": "https://en.pcam.com/portfolio/pcammes-references/",
+    "reportedQuote": {
+      "text": "Doubled the machine hours.",
+      "locale": "en"
+    },
+    "metricSource": "2×"
+  },
+  {
+    "id": "gewo-erp-automation",
+    "company": "GEWO Feinmechanik GmbH & Co. KG",
+    "productIds": [
+      "pcampps",
+      "pcammes",
+      "pcamfmc2"
+    ],
+    "source": "https://en.pcam.com/portfolio/pcamfmc2-references/",
+    "reportedQuote": {
+      "text": "Produce automatically starting from our ERP system.",
+      "locale": "en"
+    },
+    "metricSource": "ERP → automation"
+  }
+]

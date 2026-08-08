@@ -1,8 +1,7 @@
 ---
 const { product } = Astro.props;
-const lang = Astro.currentLocale ?? 'en';
 ---
-<a class="card product-card" href={`/${lang}/products/${product.slug}/`}>
+<a class="card product-card" href={product.path}>
   <span class="category">{product.eyebrow}</span>
   <h3>{product.name}</h3>
   <p>{product.summary}</p>

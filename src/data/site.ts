@@ -1,15 +1,18 @@
-export const locales = ['en', 'de', 'it', 'fr', 'es', 'pt'] as const;
-export type Locale = typeof locales[number];
+import { getUiCopy } from './i18n/ui';
+import { routePath, type RouteId } from './i18n/routes';
+import { sourceLocale } from './i18n/config';
 
-export const implementedLocales: Locale[] = ['en'];
+export { locales, implementedLocales, sourceLocale, defaultLocale, localeMeta } from './i18n/config';
+export type { Locale } from './i18n/config';
 
-export const nav = [
-  { label: 'Solutions', href: '/en/solutions/' },
-  { label: 'Applications', href: '/en/applications/' },
-  { label: 'Customer stories', href: '/en/customer-stories/' },
-  { label: 'Knowledge', href: '/en/knowledge/' },
-  { label: 'Company', href: '/en/company/' }
-];
+export const primaryNavRouteIds = ['solutions', 'applications', 'customer-stories', 'knowledge', 'company'] as const satisfies readonly RouteId[];
+
+/** English compatibility export; locale-aware components should use route IDs + UI copy. */
+export const nav = primaryNavRouteIds.map((id) => {
+  const ui = getUiCopy(sourceLocale);
+  const labelKey = id === 'customer-stories' ? 'customerStories' : id;
+  return { id, label: ui.nav[labelKey as keyof typeof ui.nav], href: routePath(id, sourceLocale) };
+});
 
 export const stats = [
   { value: '30+', label: 'years focused on tool & mould manufacturing' },

@@ -1,27 +1,31 @@
 ---
-import { nav } from '../data/site';
+import { primaryNavRouteIds } from '../data/site';
+import { asLocale } from '../data/i18n/config';
+import { getUiCopy } from '../data/i18n/ui';
+import { routePath } from '../data/i18n/routes';
 import { navItemState } from '../utils/nav';
-const { lang = Astro.currentLocale ?? 'en' } = Astro.props;
-const localize = (href: string) => href.replace(/^\/en\//, `/${lang}/`);
-const pathname = Astro.url.pathname;
 
-const items = nav.map((item) => {
-  const state = navItemState(item.href, pathname);
+const locale = asLocale(String(Astro.props.lang ?? Astro.currentLocale ?? 'en'));
+const ui = getUiCopy(locale);
+const pathname = Astro.url.pathname;
+const navLabelKey = (id: string) => id === 'customer-stories' ? 'customerStories' : id;
+const items = primaryNavRouteIds.map((id) => {
+  const state = navItemState(id, pathname, locale);
   return {
-    ...item,
-    href: localize(item.href),
+    id,
+    label: ui.nav[navLabelKey(id) as keyof typeof ui.nav],
+    href: routePath(id, locale),
     isActive: state !== null,
-    // 'page' only for an exact match; an ancestor section is aria-current="true".
     ariaCurrent: state === 'page' ? 'page' : state === 'section' ? 'true' : undefined
   };
 });
 ---
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href={`/${lang}/`} aria-label="PCam home">
+    <a class="brand" href={routePath('home', locale)} aria-label="PCam home">
       <img src="/brand/pcam-logo.webp" alt="PCam — The automation solution" width="247" height="90" />
     </a>
-    <nav class="desktop-nav" aria-label="Primary navigation">
+    <nav class="desktop-nav" aria-label={ui.header.primaryNavigation}>
       {items.map((item) => (
         <a href={item.href} class:list={[{ 'is-active': item.isActive }]} aria-current={item.ariaCurrent}>
           {item.label}
@@ -29,22 +33,22 @@ const items = nav.map((item) => {
       ))}
     </nav>
     <div class="header-actions">
-      <span class="lang-chip" aria-label="Current language">{lang.toUpperCase()} <span aria-hidden="true">·</span></span>
-      <a class="btn btn--outline" href={`/${lang}/support/`}>Customer support</a>
-      <a class="btn btn--primary" href={`/${lang}/contact/`}>Talk to an engineer</a>
-      <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span class="lang-chip" aria-label={ui.header.currentLanguage}>{locale.toUpperCase()} <span aria-hidden="true">·</span></span>
+      <a class="btn btn--outline" href={routePath('support', locale)}>{ui.header.support}</a>
+      <a class="btn btn--primary" href={routePath('contact', locale)}>{ui.header.contact}</a>
+      <button class="mobile-toggle" aria-label={ui.header.openMenu} aria-expanded="false" aria-controls="mobile-nav">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
       </button>
     </div>
   </div>
-  <nav class="mobile-nav" id="mobile-nav" data-open="false" aria-label="Mobile navigation">
+  <nav class="mobile-nav" id="mobile-nav" data-open="false" aria-label={ui.header.mobileNavigation}>
     {items.map((item) => (
       <a href={item.href} class:list={[{ 'is-active': item.isActive }]} aria-current={item.ariaCurrent}>
         {item.label}
       </a>
     ))}
-    <a href={`/${lang}/support/`}>Customer support</a>
-    <a href={`/${lang}/contact/`}>Talk to an engineer</a>
+    <a href={routePath('support', locale)}>{ui.header.support}</a>
+    <a href={routePath('contact', locale)}>{ui.header.contact}</a>
   </nav>
 </header>
 <script>

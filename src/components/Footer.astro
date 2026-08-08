@@ -1,39 +1,44 @@
 ---
-const { lang = Astro.currentLocale ?? 'en' } = Astro.props;
+import { asLocale } from '../data/i18n/config';
+import { getUiCopy } from '../data/i18n/ui';
+import { routePath } from '../data/i18n/routes';
+
+const locale = asLocale(String(Astro.props.lang ?? Astro.currentLocale ?? 'en'));
+const ui = getUiCopy(locale);
 ---
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
       <div>
         <img class="footer-brand" src="/brand/pcam-logo.webp" alt="PCam" width="247" height="90" />
-        <p class="footer-copy">Integrated automation, digital production, CNC monitoring and CAD/CAM for tool, mould and precision engineering.</p>
+        <p class="footer-copy">{ui.footer.description}</p>
         <p class="footer-copy">Al Pian 5 · 6593 Cadenazzo · Switzerland<br/>info@PCam.com</p>
       </div>
       <div class="footer-col">
-        <h4>Explore</h4>
-        <a href={`/${lang}/solutions/`}>Solutions</a>
-        <a href={`/${lang}/applications/`}>Applications</a>
-        <a href={`/${lang}/customer-stories/`}>Customer stories</a>
-        <a href={`/${lang}/company/`}>Company</a>
+        <h4>{ui.footer.explore}</h4>
+        <a href={routePath('solutions', locale)}>{ui.nav.solutions}</a>
+        <a href={routePath('applications', locale)}>{ui.nav.applications}</a>
+        <a href={routePath('customer-stories', locale)}>{ui.nav.customerStories}</a>
+        <a href={routePath('company', locale)}>{ui.nav.company}</a>
       </div>
       <div class="footer-col">
-        <h4>Customers</h4>
-        <a href={`/${lang}/support/`}>Support hub</a>
-        <a href={`/${lang}/support/downloads/`}>Downloads</a>
-        <a href={`/${lang}/support/manuals/`}>Manuals</a>
-        <a href={`/${lang}/support/licenses/`}>Licenses</a>
-        <a href={`/${lang}/support/specifications/`}>Technical requirements</a>
+        <h4>{ui.footer.customers}</h4>
+        <a href={routePath('support', locale)}>{ui.footer.supportHub}</a>
+        <a href={routePath('support-downloads', locale)}>{ui.footer.downloads}</a>
+        <a href={routePath('support-manuals', locale)}>{ui.footer.manuals}</a>
+        <a href={routePath('support-licenses', locale)}>{ui.footer.licenses}</a>
+        <a href={routePath('support-specifications', locale)}>{ui.footer.technicalRequirements}</a>
       </div>
       <div class="footer-col">
-        <h4>Partners</h4>
-        <a href={`/${lang}/partners/`}>Partner network</a>
-        <a href={`/${lang}/partners/portal/`}>Partner area</a>
-        <a href={`/${lang}/contact/`}>Sales contact</a>
+        <h4>{ui.footer.partners}</h4>
+        <a href={routePath('partners', locale)}>{ui.footer.partnerNetwork}</a>
+        <a href={routePath('partner-portal', locale)}>{ui.footer.partnerArea}</a>
+        <a href={routePath('contact', locale)}>{ui.footer.salesContact}</a>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 PCam. Prototype redesign.</span>
-      <span>English implemented · architecture ready for DE · IT · FR · ES · PT</span>
+      <span>{ui.footer.copyright}</span>
+      <span>{ui.footer.localeStatus}</span>
     </div>
   </div>
 </footer>

@@ -3,7 +3,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const pagesRoot = path.join(root, 'src', 'pages');
+const sourceRoot = path.join(root, 'src');
+const readJson = async (rel) => JSON.parse(await fs.readFile(path.join(root, rel), 'utf8'));
 
 async function walk(dir) {
   const out = [];
@@ -15,30 +16,33 @@ async function walk(dir) {
   return out;
 }
 
-const pageFiles = await walk(pagesRoot);
-const sourceFiles = await walk(path.join(root, 'src'));
-const valid = new Set(['/en/']);
+const localeConfig = await readJson('src/data/i18n/locales.json');
+const routes = await readJson('src/data/i18n/routes.json');
+const productFacts = await readJson('src/data/products/facts.json');
+const storyFacts = await readJson('src/data/stories/facts.json');
+const implemented = Object.entries(localeConfig.locales).filter(([, meta]) => meta.implemented).map(([locale]) => locale);
+const valid = new Set();
 
-for (const file of pageFiles) {
-  let rel = path.relative(pagesRoot, file).split(path.sep).join('/');
-  if (!rel.endsWith('.astro')) continue;
-  if (rel.includes('[slug]')) continue;
-  rel = rel.replace(/\.astro$/, '');
-  rel = rel.replace('[lang]', 'en');
-  rel = rel.replace(/\/index$/, '');
-  valid.add(`/${rel}/`.replace(/\/+/g, '/'));
+for (const route of Object.values(routes)) {
+  for (const locale of implemented) if (route.paths?.[locale]) valid.add(route.paths[locale]);
+}
+for (const locale of implemented) {
+  const products = await readJson(`src/data/products/locales/${locale}.json`);
+  const stories = await readJson(`src/data/stories/locales/${locale}.json`);
+  const productRoot = routes.products.paths[locale];
+  const storyRoot = routes['customer-stories'].paths[locale];
+  for (const fact of productFacts) if (products[fact.id] && productRoot) valid.add(`${productRoot}${products[fact.id].slug}/`);
+  for (const fact of storyFacts) if (stories[fact.id] && storyRoot) valid.add(`${storyRoot}${stories[fact.id].slug}/`);
 }
 
-const productText = await fs.readFile(path.join(root, 'src', 'data', 'products.ts'), 'utf8');
-for (const match of productText.matchAll(/slug:\s*'([^']+)'/g)) valid.add(`/en/products/${match[1]}/`);
-const storyText = await fs.readFile(path.join(root, 'src', 'data', 'stories.ts'), 'utf8');
-for (const match of storyText.matchAll(/slug:\s*'([^']+)'/g)) valid.add(`/en/customer-stories/${match[1]}/`);
-
+const sourceFiles = await walk(sourceRoot);
+const localePattern = implemented.join('|');
+const routeRegex = new RegExp(`['"\\x60]((?:/(?:${localePattern})/)[A-Za-z0-9_./-]*/?)['"\\x60]`, 'g');
 const seen = new Set();
 const broken = [];
 for (const file of sourceFiles) {
   const text = await fs.readFile(file, 'utf8');
-  for (const match of text.matchAll(/['"`]((?:\/en\/)[A-Za-z0-9_./-]*\/?)['"`]/g)) {
+  for (const match of text.matchAll(routeRegex)) {
     let href = match[1].split('#')[0].split('?')[0];
     if (!href.endsWith('/')) href += '/';
     seen.add(href);
@@ -51,5 +55,5 @@ if (broken.length) {
   for (const item of [...new Set(broken)]) console.error(`- ${item}`);
   process.exitCode = 1;
 } else {
-  console.log(`route audit passed: ${valid.size} generated English routes, ${seen.size} literal internal targets checked`);
+  console.log(`route audit passed: ${valid.size} generated localized routes, ${seen.size} literal internal targets checked`);
 }

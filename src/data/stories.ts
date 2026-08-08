@@ -1,61 +1,79 @@
-export interface Story {
-  slug: string;
-  company: string;
-  metric: string;
-  headline: string;
-  quote?: string;
-  context: string;
-  products: string[];
-  source: string;
+import { implementedLocales, sourceLocale, type Locale } from './i18n/config';
+import { routePath } from './i18n/routes';
+import { getProductById } from './products';
+import storyFactsJson from './stories/facts.json';
+import type { StoryFacts } from './stories/types';
+
+const storyFacts = storyFactsJson as StoryFacts[];
+import { storyCopyByLocale } from './stories/locales';
+import type { Story, StoryCopy } from './stories/types';
+
+export type { Story, StoryCopy, StoryFacts } from './stories/types';
+
+export function getStoryCopy(id: string, locale: Locale): StoryCopy {
+  const localeCopy = storyCopyByLocale[locale];
+  if (!localeCopy) throw new Error(`Story copy for published locale ${locale} is missing`);
+  const copy = localeCopy[id];
+  if (!copy) throw new Error(`Missing ${locale} story copy for canonical story ${id}`);
+  return copy;
 }
 
-export const stories: Story[] = [
-  {
-    slug: 'toolcraft-spindle-hours', company: 'Toolcraft AG', metric: '7,200+',
-    headline: 'Annual spindle hours per machine in a compact automated layout',
-    quote: 'Each machine is producing over 7200 spindle hours annually.',
-    context: 'PCam reports an installation automating two Hermle C32 machines in 90 m² with 300 centralized HSK 63 tools.',
-    products: ['PCamGantry', 'PCamFMC', 'PCamCell'],
-    source: 'https://en.pcam.com/portfolio/pcamgantry-references/'
-  },
-  {
-    slug: 'vetimec-utilization', company: 'Vetimec Soc. Coop.', metric: '25% → 65%',
-    headline: 'Spindle utilization improvement reported during Industry 4.0 transition',
-    quote: 'From 25% of spindle use ... to 65% ... in automatic.',
-    context: 'The customer describes moving from three machines at low utilization to ten machines operating automatically with two people on one shift.',
-    products: ['PCamMES', 'PCamMonitor', 'PCamCell'],
-    source: 'https://en.pcam.com/portfolio/pcammes-references/'
-  },
-  {
-    slug: 'braunform-diesink', company: 'Braunform GmbH', metric: '+30%',
-    headline: 'Productivity increase reported for automatic die-sink programming',
-    quote: 'Increase the productivity of the department by 30%.',
-    context: 'The reference links automatic die-sink machine programming to a reported productivity improvement in the department.',
-    products: ['PCamDieSink', 'PCamCell'],
-    source: 'https://en.pcam.com/portfolio/pcamdiesink-references/'
-  },
-  {
-    slug: 'sfs-monitoring', company: 'SFS Group Schweiz AG', metric: '40 CNC',
-    headline: 'One monitoring environment across 40 erosion machines',
-    quote: 'We can monitor 40 CNC erosion machines and keep our production under control.',
-    context: 'A useful proof point for heterogeneous machine monitoring and centralized operational visibility.',
-    products: ['PCamMonitor', 'PCamMMS'],
-    source: 'https://en.pcam.com/portfolio/pcammonitor-references/'
-  },
-  {
-    slug: 'radar-machine-hours', company: 'Radar Leather Division S.r.l.', metric: '2×',
-    headline: 'Machine hours doubled',
-    quote: 'Doubled the machine hours.',
-    context: 'A concise customer outcome associated with PCam digital-production and automation solutions.',
-    products: ['PCamMES', 'PCamMonitor', 'PCamRoboCube'],
-    source: 'https://en.pcam.com/portfolio/pcammes-references/'
-  },
-  {
-    slug: 'gewo-erp-automation', company: 'GEWO Feinmechanik GmbH & Co. KG', metric: 'ERP → automation',
-    headline: 'Automated production initiated from the ERP workflow',
-    quote: 'Produce automatically starting from our ERP system.',
-    context: 'The reference illustrates vertical integration from business planning into automated shop-floor execution.',
-    products: ['PCamPPS', 'PCamMES', 'PCamFMC2'],
-    source: 'https://en.pcam.com/portfolio/pcamfmc2-references/'
+export function storyPath(id: string, locale: Locale): string {
+  const copy = getStoryCopy(id, locale);
+  return `${routePath('customer-stories', locale)}${copy.slug}/`;
+}
+
+function assembleStory(id: string, locale: Locale): Story {
+  const facts = storyFacts.find((item) => item.id === id);
+  if (!facts) throw new Error(`Unknown canonical story ${id}`);
+  const copy = getStoryCopy(id, locale);
+  const quote = copy.quote ?? (facts.reportedQuote?.locale === locale ? facts.reportedQuote.text : undefined);
+  const products = facts.productIds.map((productId) => getProductById(productId, locale)?.name ?? productId);
+  return {
+    ...facts,
+    ...copy,
+    locale,
+    copyRevision: copy.revision,
+    reviewedAgainstRevision: copy.reviewedAgainstRevision,
+    quote,
+    products,
+    path: storyPath(id, locale)
+  };
+}
+
+export function getStories(locale: Locale): Story[] {
+  return storyFacts.map((facts) => assembleStory(facts.id, locale));
+}
+
+export function getStoryById(id: string, locale: Locale): Story | undefined {
+  return storyFacts.some((facts) => facts.id === id) ? assembleStory(id, locale) : undefined;
+}
+
+export function getStoryBySlug(slug: string, locale: Locale): Story | undefined {
+  const localeCopy = storyCopyByLocale[locale];
+  const entry = Object.entries(localeCopy ?? {}).find(([, copy]) => copy.slug === slug);
+  return entry ? assembleStory(entry[0], locale) : undefined;
+}
+
+export function storyIdForPath(path: string): string | undefined {
+  for (const locale of implementedLocales) {
+    const base = routePath('customer-stories', locale);
+    if (!path.startsWith(base)) continue;
+    const slug = path.slice(base.length).replace(/\/+$/, '');
+    const story = getStoryBySlug(slug, locale);
+    if (story) return story.id;
   }
-];
+  return undefined;
+}
+
+export function storyAlternatePaths(path: string): { locale: Locale; path: string }[] | undefined {
+  const id = storyIdForPath(path);
+  if (!id) return undefined;
+  return implementedLocales.flatMap((locale) => {
+    try { return [{ locale, path: storyPath(id, locale) }]; }
+    catch { return []; }
+  });
+}
+
+/** English compatibility export for pages not yet converted to locale-aware data access. */
+export const stories = getStories(sourceLocale);

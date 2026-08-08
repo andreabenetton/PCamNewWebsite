@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "astro dev",
     "sync": "astro sync",
-    "audit": "node scripts/audit-project.mjs && node scripts/audit-routes.mjs && npm run audit:adr",
+    "audit": "node scripts/audit-project.mjs && node scripts/audit-routes.mjs && npm run audit:translations && npm run audit:adr",
+    "audit:translations": "node scripts/audit-translations.mjs",
     "audit:adr": "node tools/validate_adr_index/validate.js",
     "check": "npm run audit && astro sync && tsc --noEmit",
     "build": "astro build",

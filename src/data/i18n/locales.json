@@ -1,0 +1,12 @@
+{
+  "sourceLocale": "en",
+  "defaultLocale": "en",
+  "locales": {
+    "en": { "implemented": true, "label": "English", "htmlLang": "en", "ogLocale": "en_US" },
+    "de": { "implemented": false, "label": "Deutsch", "htmlLang": "de", "ogLocale": "de_DE" },
+    "it": { "implemented": false, "label": "Italiano", "htmlLang": "it", "ogLocale": "it_IT" },
+    "fr": { "implemented": false, "label": "Français", "htmlLang": "fr", "ogLocale": "fr_FR" },
+    "es": { "implemented": false, "label": "Español", "htmlLang": "es", "ogLocale": "es_ES" },
+    "pt": { "implemented": false, "label": "Português", "htmlLang": "pt", "ogLocale": "pt_PT" }
+  }
+}

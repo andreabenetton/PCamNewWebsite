@@ -4,11 +4,14 @@ import SolutionCard from '../../components/SolutionCard.astro';
 import StoryCard from '../../components/StoryCard.astro';
 import SystemVisual from '../../components/SystemVisual.astro';
 import CtaPanel from '../../components/CtaPanel.astro';
-import { stories } from '../../data/stories';
+import { getStories } from '../../data/stories';
+import { asLocale } from '../../data/i18n/config';
 import { localizedPath } from '../../lib/i18n';
 
 export function getStaticPaths() { return [{ params: { lang: 'en' } }]; }
 const { lang = 'en' } = Astro.params;
+const locale = asLocale(lang);
+const stories = getStories(locale);
 const lp = (path: string) => localizedPath(path, lang);
 
 const applications = [

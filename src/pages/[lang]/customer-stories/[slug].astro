@@ -2,21 +2,29 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import ProductCard from '../../../components/ProductCard.astro';
 import CtaPanel from '../../../components/CtaPanel.astro';
-import { stories } from '../../../data/stories';
-import { products } from '../../../data/products';
-export function getStaticPaths(){return stories.map((story)=>({params:{lang:'en',slug:story.slug},props:{story}}));}
+import { asLocale, implementedLocales } from '../../../data/i18n/config';
+import { getUiCopy } from '../../../data/i18n/ui';
+import { getProductById } from '../../../data/products';
+import { getStories } from '../../../data/stories';
+
+export function getStaticPaths(){
+  return implementedLocales.flatMap((locale) => getStories(locale).map((story) => ({
+    params: { lang: locale, slug: story.slug },
+    props: { story }
+  })));
+}
 const { story } = Astro.props;
-const { lang='en' } = Astro.params;
-const productMatches = story.products.map((name:string)=>products.find((p)=>p.name===name)).filter(Boolean);
+const locale = asLocale(Astro.params.lang);
+const ui = getUiCopy(locale).storyPage;
+const productMatches = story.productIds.map((id:string) => getProductById(id, locale)).filter(Boolean);
 // Most metrics are short numerics ("+30%", "2×") and carry the big display size.
-// A few are phrases ("ERP → automation") whose longest word cannot fit the hero
-// column at that size, so they step down instead of overflowing the page.
+// Phrase metrics step down instead of overflowing the page.
 const isPhraseMetric = story.metric.replace(/[^A-Za-z]/g, '').length > 6;
 ---
-<BaseLayout lang={lang} title={`${story.company}: ${story.headline}`} description={`${story.company}: ${story.context}`}>
-<section class="page-hero"><div class="container"><p class="eyebrow">Customer evidence</p><div class="grid grid--2" style="gap:60px;align-items:end"><div><h1>{story.company}</h1><p class="lead">{story.headline}</p></div><div><div class:list={['story-metric', { 'story-metric--phrase': isPhraseMetric }]}>{story.metric}</div></div></div></div></section>
-<section class="section"><div class="container grid grid--2" style="gap:70px;align-items:start"><div><p class="eyebrow">Reported outcome</p>{story.quote && <blockquote style="font-size:clamp(1.8rem,3vw,3rem);line-height:1.2;margin:0;letter-spacing:-.035em">“{story.quote}”</blockquote>}</div><div><p class="lead">{story.context}</p><p class="story-source">Source: current PCam customer-reference page. The prototype intentionally does not invent project details that are not present in the source material.</p><a class="btn btn--outline" href={story.source} style="margin-top:18px">View current reference ↗</a></div></div></section>
-<section class="section section--surface"><div class="container"><div class="section-heading"><div><p class="eyebrow">Solution context</p><h2>PCam modules associated with this evidence.</h2><p>These associations are taken from the current PCam reference/product context and are intended as a starting point for a fuller, customer-approved case study.</p></div></div><div class="product-grid">{productMatches.map((p:any)=><ProductCard product={p} />)}</div></div></section>
-<section class="section"><div class="container grid grid--2" style="gap:70px;align-items:start"><div><p class="eyebrow">Case-study upgrade path</p><h2>What should be added before publication as a full engineering case.</h2></div><div class="feature-list"><div class="feature-item">Machine list and control families</div><div class="feature-item">Initial production constraint</div><div class="feature-item">Cell layout and material-flow diagram</div><div class="feature-item">Interfaces to ERP, tooling and measurement</div><div class="feature-item">Before/after KPI definition and measurement period</div><div class="feature-item">Customer-approved photos, video and quotation</div></div></div></section>
-<CtaPanel title="Want to achieve a comparable production outcome?" text="The first step is to map your current machine utilization, process route, resources and unattended-production constraints." />
+<BaseLayout lang={locale} title={`${story.company}: ${story.headline}`} description={`${story.company}: ${story.context}`}>
+<section class="page-hero"><div class="container"><p class="eyebrow">{ui.eyebrow}</p><div class="grid grid--2" style="gap:60px;align-items:end"><div><h1>{story.company}</h1><p class="lead">{story.headline}</p></div><div><div class:list={['story-metric', { 'story-metric--phrase': isPhraseMetric }]}>{story.metric}</div></div></div></div></section>
+<section class="section"><div class="container grid grid--2" style="gap:70px;align-items:start"><div><p class="eyebrow">{ui.reportedOutcome}</p>{story.quote && <blockquote style="font-size:clamp(1.8rem,3vw,3rem);line-height:1.2;margin:0;letter-spacing:-.035em">“{story.quote}”</blockquote>}</div><div><p class="lead">{story.context}</p><p class="story-source">{ui.sourceNote}</p><a class="btn btn--outline" href={story.source} style="margin-top:18px">{ui.sourceLink}</a></div></div></section>
+<section class="section section--surface"><div class="container"><div class="section-heading"><div><p class="eyebrow">{ui.solutionContext}</p><h2>{ui.solutionContextTitle}</h2><p>{ui.solutionContextText}</p></div></div><div class="product-grid">{productMatches.map((p:any)=><ProductCard product={p} />)}</div></div></section>
+<section class="section"><div class="container grid grid--2" style="gap:70px;align-items:start"><div><p class="eyebrow">{ui.upgradeEyebrow}</p><h2>{ui.upgradeTitle}</h2></div><div class="feature-list">{ui.upgradeItems.map((item) => <div class="feature-item">{item}</div>)}</div></div></section>
+<CtaPanel title={ui.ctaTitle} text={ui.ctaText} />
 </BaseLayout>

@@ -2,22 +2,53 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const root = process.cwd();
-const productSource = await fs.readFile(path.join(root, 'src/data/products.ts'), 'utf8');
-const storySource = await fs.readFile(path.join(root, 'src/data/stories.ts'), 'utf8');
-const productSlugs = [...productSource.matchAll(/slug:\s*'([^']+)'/g)].map((m)=>m[1]);
-const storySlugs = [...storySource.matchAll(/slug:\s*'([^']+)'/g)].map((m)=>m[1]);
-const routes = [
-  '/en/', '/en/solutions/', '/en/solutions/cnc-automation/', '/en/solutions/digital-production/',
-  '/en/solutions/cnc-monitoring/', '/en/solutions/tool-management/', '/en/solutions/edm-cam/', '/en/solutions/measurement/',
-  '/en/applications/', '/en/applications/unattended-production/', '/en/applications/connect-cnc-machines/',
-  '/en/applications/production-planning/', '/en/applications/tool-data-management/', '/en/applications/quality-measurement/',
-  '/en/products/', '/en/customer-stories/', '/en/knowledge/',
-  '/en/knowledge/automation-for-tool-and-mould-making/', '/en/knowledge/mes-for-tool-and-mould-manufacturing/',
-  '/en/knowledge/unattended-cnc-machining/', '/en/company/', '/en/company/history/', '/en/partners/', '/en/support/', '/en/support/specifications/', '/en/contact/',
-  ...productSlugs.map((slug)=>`/en/products/${slug}/`),
-  ...storySlugs.map((slug)=>`/en/customer-stories/${slug}/`)
-];
-const unique = [...new Set(routes)].sort();
-const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${unique.map((route)=>`  <url><loc>https://pcam.com${route}</loc><xhtml:link rel="alternate" hreflang="en" href="https://pcam.com${route}" /></url>`).join('\n')}\n</urlset>\n`;
+const readJson = async (rel) => JSON.parse(await fs.readFile(path.join(root, rel), 'utf8'));
+const localeConfig = await readJson('src/data/i18n/locales.json');
+const routes = await readJson('src/data/i18n/routes.json');
+const productFacts = await readJson('src/data/products/facts.json');
+const storyFacts = await readJson('src/data/stories/facts.json');
+const sourceLocale = localeConfig.sourceLocale;
+const implemented = Object.entries(localeConfig.locales).filter(([, meta]) => meta.implemented).map(([locale]) => locale);
+const base = 'https://pcam.com';
+const escapeXml = (value) => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('"', '&quot;');
+
+const groups = [];
+for (const [routeId, route] of Object.entries(routes)) {
+  if (!route.sitemap) continue;
+  const paths = Object.fromEntries(implemented.flatMap((locale) => route.paths?.[locale] ? [[locale, route.paths[locale]]] : []));
+  groups.push({ id: `route:${routeId}`, paths });
+}
+
+for (const fact of productFacts) {
+  const paths = {};
+  for (const locale of implemented) {
+    const copy = await readJson(`src/data/products/locales/${locale}.json`);
+    const rootPath = routes.products.paths[locale];
+    if (copy[fact.id] && rootPath) paths[locale] = `${rootPath}${copy[fact.id].slug}/`;
+  }
+  groups.push({ id: `product:${fact.id}`, paths });
+}
+
+for (const fact of storyFacts) {
+  const paths = {};
+  for (const locale of implemented) {
+    const copy = await readJson(`src/data/stories/locales/${locale}.json`);
+    const rootPath = routes['customer-stories'].paths[locale];
+    if (copy[fact.id] && rootPath) paths[locale] = `${rootPath}${copy[fact.id].slug}/`;
+  }
+  groups.push({ id: `story:${fact.id}`, paths });
+}
+
+const urlRows = [];
+for (const group of groups) {
+  const alternates = implemented.flatMap((locale) => group.paths[locale] ? [{ locale, path: group.paths[locale] }] : []);
+  for (const current of alternates) {
+    const links = alternates.map((item) => `    <xhtml:link rel="alternate" hreflang="${item.locale}" href="${escapeXml(base + item.path)}" />`);
+    if (group.paths[sourceLocale]) links.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(base + group.paths[sourceLocale])}" />`);
+    urlRows.push(`  <url>\n    <loc>${escapeXml(base + current.path)}</loc>\n${links.join('\n')}\n  </url>`);
+  }
+}
+
+const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urlRows.join('\n')}\n</urlset>\n`;
 await fs.writeFile(path.join(root, 'public/sitemap.xml'), xml);
-console.log(`generated sitemap with ${unique.length} English URLs`);
+console.log(`generated sitemap with ${urlRows.length} localized URLs across ${implemented.length} locale(s)`);

@@ -2,10 +2,13 @@
 import PageHero from './PageHero.astro';
 import ProductCard from './ProductCard.astro';
 import CtaPanel from './CtaPanel.astro';
-import { products } from '../data/products';
+import { asLocale } from '../data/i18n/config';
+import { getProductById } from '../data/products';
 
 const { title, eyebrow, lead, problem, approach, bullets = [], productSlugs = [], architecture = [] } = Astro.props;
-const selected = productSlugs.map((slug: string) => products.find((p) => p.slug === slug)).filter(Boolean);
+const locale = asLocale(String(Astro.currentLocale ?? Astro.params.lang ?? 'en'));
+// Existing page definitions use English product slugs; those are now canonical product IDs.
+const selected = productSlugs.map((id: string) => getProductById(id, locale)).filter(Boolean);
 ---
 <PageHero eyebrow={eyebrow} title={title} lead={lead} crumbs={[{ label: 'Solutions', href: '/en/solutions/' }, { label: title }]} actions={[{ label: 'Talk to an engineer', href: '/en/contact/' }]} />
 <section class="section">

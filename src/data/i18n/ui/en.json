@@ -1,0 +1,107 @@
+{
+  "revision": 1,
+  "accessibility": {
+    "skipToContent": "Skip to content"
+  },
+  "nav": {
+    "solutions": "Solutions",
+    "applications": "Applications",
+    "customerStories": "Customer stories",
+    "knowledge": "Knowledge",
+    "company": "Company"
+  },
+  "sections": {
+    "home": "Home",
+    "solutions": "Solutions",
+    "applications": "Applications",
+    "customerStories": "Customer stories",
+    "knowledge": "Knowledge",
+    "company": "Company",
+    "products": "Products",
+    "support": "Customer support",
+    "partners": "Partners",
+    "contact": "Contact"
+  },
+  "header": {
+    "primaryNavigation": "Primary navigation",
+    "mobileNavigation": "Mobile navigation",
+    "currentLanguage": "Current language",
+    "support": "Customer support",
+    "contact": "Talk to an engineer",
+    "openMenu": "Open menu"
+  },
+  "footer": {
+    "description": "Integrated automation, digital production, CNC monitoring and CAD/CAM for tool, mould and precision engineering.",
+    "explore": "Explore",
+    "customers": "Customers",
+    "partners": "Partners",
+    "supportHub": "Support hub",
+    "downloads": "Downloads",
+    "manuals": "Manuals",
+    "licenses": "Licenses",
+    "technicalRequirements": "Technical requirements",
+    "partnerNetwork": "Partner network",
+    "partnerArea": "Partner area",
+    "salesContact": "Sales contact",
+    "copyright": "© 2026 PCam. Prototype redesign.",
+    "localeStatus": "English implemented · architecture ready for DE · IT · FR · ES · PT"
+  },
+  "products": {
+    "filterLabel": "Filter products",
+    "categories": {
+      "all": "All",
+      "automation": "Automation",
+      "digital-production": "Digital production",
+      "monitoring": "Monitoring",
+      "tool-management": "Tool management",
+      "edm-cam": "EDM CAD/CAM",
+      "measurement": "Measurement"
+    }
+  },
+  "productPage": {
+    "discussApplication": "Discuss this application",
+    "sourceLink": "Current PCam page ↗",
+    "whyItExists": "Why it exists",
+    "designedFor": "Designed for",
+    "capabilities": "Capabilities",
+    "controlsTitle": "What the system controls.",
+    "outcomes": "Operational outcomes",
+    "outcomesTitle": "What should improve.",
+    "technicalData": "Selected technical data",
+    "technicalDataTitle": "Engineering details that help qualify the fit.",
+    "technicalDataNote": "Final configuration and limits depend on the project. These values reproduce selected data from the current PCam product page.",
+    "interfaces": "Interfaces & ecosystem",
+    "interfacesTitle": "Designed to live inside an existing workshop.",
+    "seeSystem": "See the system",
+    "videoTitle": "Video and process demonstration.",
+    "videoNote": "Video delivery is independent from page copy so Cloudflare Stream identifiers can change without rewriting product content.",
+    "videoFallback": "{product} demonstration",
+    "customerEvidence": "Customer evidence",
+    "customerEvidenceTitle": "Results associated with this part of the stack.",
+    "relatedProducts": "Related products",
+    "relatedProductsTitle": "Usually part of a wider architecture.",
+    "ctaQuestion": "Is {product} the right fit for your process?",
+    "ctaText": "Share your machine list, part mix, interfaces and autonomy target. Qualification should start from the production constraint, not from a catalogue code."
+  },
+  "storyPage": {
+    "eyebrow": "Customer evidence",
+    "reportedOutcome": "Reported outcome",
+    "sourceNote": "Source: current PCam customer-reference page. The prototype intentionally does not invent project details that are not present in the source material.",
+    "sourceLink": "View current reference ↗",
+    "solutionContext": "Solution context",
+    "solutionContextTitle": "PCam modules associated with this evidence.",
+    "solutionContextText": "These associations are taken from the current PCam reference/product context and are intended as a starting point for a fuller, customer-approved case study.",
+    "upgradeEyebrow": "Case-study upgrade path",
+    "upgradeTitle": "What should be added before publication as a full engineering case.",
+    "upgradeItems": [
+      "Machine list and control families",
+      "Initial production constraint",
+      "Cell layout and material-flow diagram",
+      "Interfaces to ERP, tooling and measurement",
+      "Before/after KPI definition and measurement period",
+      "Customer-approved photos, video and quotation"
+    ],
+    "ctaTitle": "Want to achieve a comparable production outcome?",
+    "ctaText": "The first step is to map your current machine utilization, process route, resources and unattended-production constraints."
+  }
+}

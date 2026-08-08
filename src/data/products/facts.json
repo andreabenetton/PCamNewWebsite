@@ -1,0 +1,198 @@
+[
+  {
+    "id": "pcammes",
+    "name": "PCamMES",
+    "category": "digital-production",
+    "source": "https://en.pcam.com/portfolio/pcammes/"
+  },
+  {
+    "id": "pcampps",
+    "name": "PCamPPS",
+    "category": "digital-production",
+    "source": "https://en.pcam.com/portfolio/pcampps/"
+  },
+  {
+    "id": "pcammonitor",
+    "name": "PCamMonitor",
+    "category": "monitoring",
+    "source": "https://en.pcam.com/portfolio/pcammonitor/"
+  },
+  {
+    "id": "pcamiot",
+    "name": "PCamIoT",
+    "category": "monitoring",
+    "source": "https://en.pcam.com/portfolio/pcamiot/"
+  },
+  {
+    "id": "pcamtoolmanager",
+    "name": "PCamToolManager",
+    "category": "tool-management",
+    "source": "https://en.pcam.com/portfolio/pcamtoolmanager/"
+  },
+  {
+    "id": "pcamcell",
+    "name": "PCamCell",
+    "category": "automation",
+    "source": "https://en.pcam.com/portfolio/pcamcell/"
+  },
+  {
+    "id": "pcamjobmanager",
+    "name": "PCamJobManager",
+    "category": "automation",
+    "source": "https://en.pcam.com/portfolio/pcamjobmanager/"
+  },
+  {
+    "id": "pcamwsm",
+    "name": "PCamWSM",
+    "category": "digital-production",
+    "source": "https://en.pcam.com/portfolio/pcamwsm/"
+  },
+  {
+    "id": "pcamrobocube",
+    "name": "PCamRoboCube",
+    "category": "automation",
+    "source": "https://en.pcam.com/portfolio/pcamrobocube/",
+    "specs": [
+      {
+        "key": "envelope",
+        "sourceValue": "2.5 × 2.2 × 2.7 m"
+      },
+      {
+        "key": "system-weight",
+        "sourceValue": "2,300 kg"
+      },
+      {
+        "key": "max-wrist-load",
+        "sourceValue": "150 kg"
+      },
+      {
+        "key": "max-pallet",
+        "sourceValue": "320 × 320 × 230 mm"
+      },
+      {
+        "key": "pallet-positions",
+        "sourceValue": "Up to 30"
+      },
+      {
+        "key": "tool-positions",
+        "sourceValue": "Up to 200"
+      }
+    ]
+  },
+  {
+    "id": "pcamfmc",
+    "name": "PCamFMC",
+    "category": "automation",
+    "source": "https://en.pcam.com/portfolio/pcamfmc/",
+    "specs": [
+      {
+        "key": "axes",
+        "sourceValue": "6"
+      },
+      {
+        "key": "maximum-load",
+        "sourceValue": "220 kg (pallet + blank)"
+      },
+      {
+        "key": "reported-repeatability",
+        "sourceValue": "±0.3 mm"
+      }
+    ]
+  },
+  {
+    "id": "pcamfmc2",
+    "name": "PCamFMC2",
+    "category": "automation",
+    "source": "https://en.pcam.com/portfolio/pcamfmc2/"
+  },
+  {
+    "id": "pcamlinear",
+    "name": "PCamLinear",
+    "category": "automation",
+    "source": "https://en.pcam.com/portfolio/pcamlinear/"
+  },
+  {
+    "id": "pcamgantry",
+    "name": "PCamGantry",
+    "category": "automation",
+    "source": "https://en.pcam.com/portfolio/pcamgantry/"
+  },
+  {
+    "id": "pcamheavy",
+    "name": "PCamHeavy",
+    "category": "automation",
+    "source": "https://en.pcam.com/portfolio/pcamheavy/",
+    "specs": [
+      {
+        "key": "load-transport",
+        "sourceValue": "Up to 8 t (current PCam page)"
+      },
+      {
+        "key": "tool-capacity",
+        "sourceValue": "Up to 3,000 HSK or ISO tools (current PCam page)"
+      }
+    ]
+  },
+  {
+    "id": "pcamcobot",
+    "name": "PCamCobot",
+    "category": "automation",
+    "source": "https://en.pcam.com/portfolio/pcamcobot/"
+  },
+  {
+    "id": "pcamagv",
+    "name": "PCamAGV",
+    "category": "automation",
+    "source": "https://en.pcam.com/portfolio/pcamagv/"
+  },
+  {
+    "id": "pcamcube",
+    "name": "PCamCube",
+    "category": "automation",
+    "source": "https://en.pcam.com/portfolio/pcamminicube/",
+    "specs": [
+      {
+        "key": "envelope",
+        "sourceValue": "1.7 × 2.45 × 2.5 m"
+      },
+      {
+        "key": "weight",
+        "sourceValue": "1,500 kg"
+      },
+      {
+        "key": "maximum-extension",
+        "sourceValue": "1,200 mm"
+      },
+      {
+        "key": "maximum-pallet-weight",
+        "sourceValue": "40 kg at J6"
+      },
+      {
+        "key": "pallet-positions",
+        "sourceValue": "Up to 10"
+      },
+      {
+        "key": "electrode-positions",
+        "sourceValue": "Up to 192"
+      }
+    ]
+  },
+  {
+    "id": "pcamwire",
+    "name": "PCamWire",
+    "category": "edm-cam",
+    "source": "https://en.pcam.com/portfolio/pcamwire/"
+  },
+  {
+    "id": "pcamdiesink",
+    "name": "PCamDieSink",
+    "category": "edm-cam",
+    "source": "https://en.pcam.com/portfolio/pcamdiesink/"
+  },
+  {
+    "id": "pcammms",
+    "name": "PCamMMS",
+    "category": "measurement",
+    "source": "https://en.pcam.com/portfolio/pcammms/"
+  }
+]

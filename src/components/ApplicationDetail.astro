@@ -3,12 +3,15 @@ import PageHero from './PageHero.astro';
 import ProductCard from './ProductCard.astro';
 import StoryCard from './StoryCard.astro';
 import CtaPanel from './CtaPanel.astro';
-import { products } from '../data/products';
-import { stories } from '../data/stories';
+import { asLocale } from '../data/i18n/config';
+import { getProductById } from '../data/products';
+import { getStoryById } from '../data/stories';
 
 const { title, eyebrow, lead, symptoms = [], designPrinciples = [], productSlugs = [], proofSlugs = [], workflow = [] } = Astro.props;
-const selected = productSlugs.map((slug: string) => products.find((p) => p.slug === slug)).filter(Boolean);
-const proof = proofSlugs.map((slug:string) => stories.find((s) => s.slug === slug)).filter(Boolean);
+const locale = asLocale(String(Astro.currentLocale ?? Astro.params.lang ?? 'en'));
+// Existing page definitions use English slugs; they are canonical IDs, not localized URL slugs.
+const selected = productSlugs.map((id: string) => getProductById(id, locale)).filter(Boolean);
+const proof = proofSlugs.map((id:string) => getStoryById(id, locale)).filter(Boolean);
 ---
 <PageHero eyebrow={eyebrow} title={title} lead={lead} crumbs={[{label:'Applications',href:'/en/applications/'},{label:title}]} actions={[{label:'Discuss your process',href:'/en/contact/'}]} />
 <section class="section"><div class="container grid grid--2" style="gap:70px;align-items:start">

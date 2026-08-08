@@ -1,0 +1,44 @@
+{
+  "toolcraft-spindle-hours": {
+    "revision": 1,
+    "slug": "toolcraft-spindle-hours",
+    "headline": "Annual spindle hours per machine in a compact automated layout",
+    "context": "PCam reports an installation automating two Hermle C32 machines in 90 m² with 300 centralized HSK 63 tools.",
+    "metric": "7,200+"
+  },
+  "vetimec-utilization": {
+    "revision": 1,
+    "slug": "vetimec-utilization",
+    "headline": "Spindle utilization improvement reported during Industry 4.0 transition",
+    "context": "The customer describes moving from three machines at low utilization to ten machines operating automatically with two people on one shift.",
+    "metric": "25% → 65%"
+  },
+  "braunform-diesink": {
+    "revision": 1,
+    "slug": "braunform-diesink",
+    "headline": "Productivity increase reported for automatic die-sink programming",
+    "context": "The reference links automatic die-sink machine programming to a reported productivity improvement in the department.",
+    "metric": "+30%"
+  },
+  "sfs-monitoring": {
+    "revision": 1,
+    "slug": "sfs-monitoring",
+    "headline": "One monitoring environment across 40 erosion machines",
+    "context": "A useful proof point for heterogeneous machine monitoring and centralized operational visibility.",
+    "metric": "40 CNC"
+  },
+  "radar-machine-hours": {
+    "revision": 1,
+    "slug": "radar-machine-hours",
+    "headline": "Machine hours doubled",
+    "context": "A concise customer outcome associated with PCam digital-production and automation solutions.",
+    "metric": "2×"
+  },
+  "gewo-erp-automation": {
+    "revision": 1,
+    "slug": "gewo-erp-automation",
+    "headline": "Automated production initiated from the ERP workflow",
+    "context": "The reference illustrates vertical integration from business planning into automated shop-floor execution.",
+    "metric": "ERP → automation"
+  }
+}

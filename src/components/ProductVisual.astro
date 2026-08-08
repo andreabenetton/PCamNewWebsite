@@ -1,7 +1,7 @@
 ---
 import { mediaUrl, productMedia } from '../data/media';
 const { product } = Astro.props;
-const media = productMedia[product.slug];
+const media = productMedia[product.id ?? product.slug];
 const assetUrl = media ? mediaUrl(media.target) : undefined;
 ---
 <div class={`product-media ${media ? 'product-media--has-source' : ''}`}>

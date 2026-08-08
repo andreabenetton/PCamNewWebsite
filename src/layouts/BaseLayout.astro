@@ -2,7 +2,9 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
-import { implementedLocales } from '../data/site';
+import { asLocale, localeMeta, sourceLocale } from '../data/i18n/config';
+import { getUiCopy } from '../data/i18n/ui';
+import { alternatePathsForPath, sourceEquivalentPath } from '../lib/i18n';
 import { breadcrumbFor } from '../utils/nav';
 import '../styles/fonts.css';
 import '../styles/global.css';
@@ -28,20 +30,18 @@ const {
   breadcrumbLabel
 } = Astro.props;
 
+const locale = asLocale(String(lang));
+const ui = getUiCopy(locale);
 const fullTitle = title.includes('PCam') ? title : `${title} | PCam`;
-const canonicalUrl = new URL(canonical, Astro.site ?? 'https://pcam.com').toString();
-const imageUrl = new URL(image, Astro.site ?? 'https://pcam.com').toString();
-const localeNeutralPath = Astro.url.pathname.replace(/^\/[a-z]{2}\//, '/');
 const siteBase = Astro.site ?? 'https://pcam.com';
-// Same trail the visible Breadcrumb renders, mirrored as structured data.
-const crumbs = breadcrumbFor(Astro.url.pathname, breadcrumbLabel ?? title, lang);
-const alternates = implementedLocales.map((locale) => ({
-  locale,
-  href: new URL(`/${locale}${localeNeutralPath}`.replace(/\/+/g, '/'), Astro.site ?? 'https://pcam.com').toString()
-}));
+const canonicalUrl = new URL(canonical, siteBase).toString();
+const imageUrl = new URL(image, siteBase).toString();
+const crumbs = breadcrumbFor(Astro.url.pathname, breadcrumbLabel ?? title, locale);
+const alternates = alternatePathsForPath(Astro.url.pathname);
+const sourceEquivalent = sourceEquivalentPath(Astro.url.pathname) ?? (locale === sourceLocale ? Astro.url.pathname : undefined);
 ---
 <!doctype html>
-<html lang={lang}>
+<html lang={localeMeta[locale].htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -49,8 +49,8 @@ const alternates = implementedLocales.map((locale) => ({
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
-    {alternates.map((item) => <link rel="alternate" hreflang={item.locale} href={item.href} />)}
-    <link rel="alternate" hreflang="x-default" href={new URL('/en/', Astro.site ?? 'https://pcam.com').toString()} />
+    {alternates.map((item) => <link rel="alternate" hreflang={item.locale} href={new URL(item.path, siteBase).toString()} />)}
+    {sourceEquivalent && <link rel="alternate" hreflang="x-default" href={new URL(sourceEquivalent, siteBase).toString()} />}
     {noindex && <meta name="robots" content="noindex,nofollow" />}
     <meta property="og:type" content="website" />
     <meta property="og:title" content={fullTitle} />
@@ -58,7 +58,7 @@ const alternates = implementedLocales.map((locale) => ({
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:image" content={imageUrl} />
     <meta property="og:site_name" content="PCam" />
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content={localeMeta[locale].ogLocale} />
     <meta name="twitter:card" content="summary_large_image" />
     {/* Browsers cache favicons in a store that survives a hard reload, so the
         ?v= tag is what actually retires a previously-cached icon. Bump it when
@@ -71,7 +71,7 @@ const alternates = implementedLocales.map((locale) => ({
       '@type': 'Organization',
       name: 'PCam',
       url: 'https://pcam.com',
-      logo: new URL('/brand/pcam-logo-original.webp', Astro.site ?? 'https://pcam.com').toString(),
+      logo: new URL('/brand/pcam-logo-original.webp', siteBase).toString(),
       email: 'info@pcam.com',
       address: { '@type': 'PostalAddress', streetAddress: 'Al Pian 5', postalCode: '6593', addressLocality: 'Cadenazzo', addressCountry: 'CH' }
     })}></script>
@@ -89,10 +89,10 @@ const alternates = implementedLocales.map((locale) => ({
     )}
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <Header lang={lang} />
-    <Breadcrumb label={breadcrumbLabel ?? title} lang={lang} />
+    <a class="skip-link" href="#main">{ui.accessibility.skipToContent}</a>
+    <Header lang={locale} />
+    <Breadcrumb label={breadcrumbLabel ?? title} lang={locale} />
     <main id="main"><slot /></main>
-    <Footer lang={lang} />
+    <Footer lang={locale} />
   </body>
 </html>
