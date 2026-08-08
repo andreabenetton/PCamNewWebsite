@@ -1,5 +1,38 @@
-node_modules/
-dist/
-.astro/
+# OS
 .DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Astro
+.astro/
+
+# Build output (wrangler serves ./dist as static assets)
+dist/
+*.tsbuildinfo
+
+# Cloudflare / Wrangler local state and caches
+.wrangler/
+.dev.vars
+.dev.vars.*
+
+# Environment / secrets. Every variant is ignored; the example is tracked so
+# the required keys stay discoverable without carrying values.
 .env
+.env.*
+!.env.example
+
+# Per-developer agent overrides — host machine details and personal scratch
+# notes, never committed.
+CLAUDE.local.md
+**/CLAUDE.local.md

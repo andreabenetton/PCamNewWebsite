@@ -1,0 +1,47 @@
+# Pin text/EOL behavior so the index stays canonical across machines.
+#
+# Without this file, git inherits each developer's local `core.autocrlf`
+# default. A clone on a machine whose default differs from the committer's
+# appears "massively dirty" on first checkout — every text file flags as
+# modified solely because of CRLF<->LF drift. Pinning behavior here removes
+# that ambiguity.
+
+# Default: treat every file as text, normalise EOL to LF on commit, check out
+# as LF on every platform. Linux is the primary host; this matches the index.
+* text=auto eol=lf
+
+# --- Binary asset classes - opt out of text handling entirely ---------------
+# Astro/Cloudflare sites carry these under public/; without an explicit binary
+# marking, EOL normalisation can corrupt them and diffs become unreadable.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.avif binary
+*.ico  binary
+*.pdf  binary
+*.zip  binary
+*.gz   binary
+
+# Fonts (self-hosted under public/fonts)
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary
+*.eot   binary
+
+# Media
+*.mp4  binary
+*.mov  binary
+*.webm binary
+*.mp3  binary
+*.wav  binary
+
+# --- Platform-specific text files that MUST keep CRLF ----------------------
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# --- Lockfile - explicit text so it doesn't slip through as binary ---------
+package-lock.json text
