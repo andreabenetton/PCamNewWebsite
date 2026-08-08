@@ -45,3 +45,70 @@ Do not make production changes through the Cloudflare dashboard as a substitute 
 - Never modify the legacy WordPress or SQL systems while doing content discovery unless the user explicitly authorizes a write operation.
 - Never commit secrets, SQL credentials, API tokens or Cloudflare tokens.
 - Use `.env` / Cloudflare secrets for future runtime credentials.
+
+## Git discipline
+
+Commits are GPG-signed; identity and signing
+are pinned in this repository's local `.git/config`, so they do not depend on
+global settings.
+
+After each logical unit of work:
+
+- create a git commit
+- push to the current branch
+
+If push cannot be completed because of credentials, remote access, branch
+protection, or environment limits:
+
+- say so explicitly
+- do not claim the push succeeded
+
+Commit messages must be short, specific, and scoped to the actual change.
+Do not leave completed logical units of work uncommitted.
+**Do not add a "Co-Authored-By" trailer to any commit message.**
+
+Never commit or push unless the user asks. Committing is not deploying:
+deployment stays gated on the explicit request described in *Operating model*.
+
+### Multi-fix prompts
+
+When a single prompt asks for **more than one unrelated fix** (different files,
+different bugs, different concerns — not the natural sub-tasks of one feature),
+do not bundle them into a single commit. Instead, for each fix in turn:
+
+1. implement only that one fix
+2. run the impacted checks (`npm run check`, and `npm run build` when routing,
+   config or assets changed); verify they pass
+3. create one commit scoped to that fix, with a message describing only it
+4. push, then move to the next fix
+
+Each fix becomes one commit — independently reviewable, revertable and
+bisectable. A multi-fix prompt produces N commits, not one.
+
+Related sub-tasks of the same fix (a component change plus its styles plus a
+doc cross-reference) belong in the same commit — they are not "different
+fixes". The discriminator is whether the changes share a single root cause or
+feature; if yes, one commit; if no, separate commits.
+
+Do not bundle "while I'm here" cleanups into a fix commit. If unrelated drift
+is discovered mid-fix, either note it explicitly and defer it, or handle it as
+its own follow-up commit after the in-scope fix is committed.
+
+### Shared-stylesheet caveat
+
+`src/styles/global.css` is touched by nearly every change, so several
+unrelated fixes can collide in one file. That is not a licence to bundle
+them: stage the specific hunks per commit. If the hunks genuinely cannot be
+separated, say so in the commit message rather than silently merging concerns.
+
+### Debugging hygiene
+
+When chasing a bug across several commits, do not squash the chain into a
+single "fix X" commit. Each independent root cause deserves its own commit,
+even when the surface symptom is the same. The discriminator is "single root
+cause vs. distinct root causes", not "the user saw the same problem".
+
+Clean up before committing: throw-away diagnostic instrumentation, one-shot
+fixtures, and commented-out code from earlier hypotheses. Keep genuine
+operational signals — a warning on a real fallback path, or a log of a
+previously silent swallowed error — those are the fix, not noise.
