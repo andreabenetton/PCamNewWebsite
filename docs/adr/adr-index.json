@@ -1,0 +1,101 @@
+{
+  "$comment": "Generated from the ADR files; consistency is enforced by tools/validate_adr_index. Update whenever an ADR or amendment lands: `amendments` counts the `### Amendment ` headings in docs/adr/history/ADR-NNN-amendments.md, which must equal the ADR's amendment-log table rows. Amendment notes never live in the main ADR file. This project does not categorize ADRs, so there are no cluster or pillar fields.",
+  "adrs": [
+    {
+      "number": 0,
+      "file": "ADR-000-decision-governance.md",
+      "title": "Decision governance for humans and coding agents",
+      "status": "Proposed",
+      "date": "2026-08-08",
+      "amendments": 0
+    },
+    {
+      "number": 1,
+      "file": "ADR-001-business-outcomes-first.md",
+      "title": "The website exists to sell and to keep customers successful",
+      "status": "Proposed",
+      "date": "2026-08-08",
+      "amendments": 0
+    },
+    {
+      "number": 2,
+      "file": "ADR-002-not-a-one-to-one-wordpress-migration.md",
+      "title": "Redesign the experience; do not reproduce WordPress 1:1",
+      "status": "Proposed",
+      "date": "2026-08-08",
+      "amendments": 0
+    },
+    {
+      "number": 3,
+      "file": "ADR-003-seo-first-multilingual-information-architecture.md",
+      "title": "SEO-first multilingual information architecture under locale paths",
+      "status": "Proposed",
+      "date": "2026-08-08",
+      "amendments": 0
+    },
+    {
+      "number": 4,
+      "file": "ADR-004-astro-static-first-react-islands.md",
+      "title": "Astro owns routing; static-first; React only for bounded islands",
+      "status": "Proposed",
+      "date": "2026-08-08",
+      "amendments": 0
+    },
+    {
+      "number": 5,
+      "file": "ADR-005-cloudflare-native-target.md",
+      "title": "Cloudflare is the production target for site, media and video",
+      "status": "Proposed",
+      "date": "2026-08-08",
+      "amendments": 0
+    },
+    {
+      "number": 6,
+      "file": "ADR-006-local-first-git-and-explicit-deploy.md",
+      "title": "Local Git is source of truth; deployment is explicit",
+      "status": "Proposed",
+      "date": "2026-08-08",
+      "amendments": 0
+    },
+    {
+      "number": 7,
+      "file": "ADR-007-engineering-credibility-editorial-policy.md",
+      "title": "Editorial voice must demonstrate engineering mastery",
+      "status": "Proposed",
+      "date": "2026-08-08",
+      "amendments": 0
+    },
+    {
+      "number": 8,
+      "file": "ADR-008-separate-acquisition-support-and-partner-journeys.md",
+      "title": "Separate prospect, customer-support and partner journeys",
+      "status": "Proposed",
+      "date": "2026-08-08",
+      "amendments": 0
+    },
+    {
+      "number": 9,
+      "file": "ADR-009-integration-boundaries-before-live-data.md",
+      "title": "Keep SQL/auth/license/download integrations behind explicit boundaries",
+      "status": "Proposed",
+      "date": "2026-08-08",
+      "amendments": 0
+    },
+    {
+      "number": 10,
+      "file": "ADR-010-real-media-provenance-and-deduplication.md",
+      "title": "Prefer real PCam media; migrate with provenance and hash deduplication",
+      "status": "Proposed",
+      "date": "2026-08-08",
+      "amendments": 0
+    },
+    {
+      "number": 11,
+      "file": "ADR-011-performance-accessibility-and-device-independence.md",
+      "title": "Performance, accessibility and responsive behavior are baseline requirements",
+      "status": "Proposed",
+      "date": "2026-08-08",
+      "amendments": 0
+    }
+  ]
+}
