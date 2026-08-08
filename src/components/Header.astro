@@ -6,7 +6,7 @@ const localize = (href: string) => href.replace(/^\/en\//, `/${lang}/`);
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand" href={`/${lang}/`} aria-label="PCam home">
-      <img src="/brand/pcam-logo.webp" alt="PCam — The automation solution" width="246" height="89" />
+      <img src="/brand/pcam-logo.webp" alt="PCam — The automation solution" width="247" height="90" />
     </a>
     <nav class="desktop-nav" aria-label="Primary navigation">
       {nav.map((item) => <a href={localize(item.href)}>{item.label}</a>)}
