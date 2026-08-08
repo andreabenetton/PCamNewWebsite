@@ -46,6 +46,31 @@ Do not make production changes through the Cloudflare dashboard as a substitute 
 - Never commit secrets, SQL credentials, API tokens or Cloudflare tokens.
 - Use `.env` / Cloudflare secrets for future runtime credentials.
 
+## Architecture Decision Records
+
+`docs/adr/` holds the durable reasoning behind the redesign. This file states
+the current rules; ADRs state why they exist and what it takes to change them.
+
+**Before changing** information architecture, public URLs or routing, the
+rendering model, React usage, the deployment model, editorial policy, media
+architecture, or integration/authentication boundaries: read
+[`docs/adr/ADR-DIGEST.md`](docs/adr/ADR-DIGEST.md) first — a keyword table plus
+one current-state summary per ADR. Open a full ADR only when your change
+touches its substance. Never read all twelve to answer one question.
+
+**All twelve ADRs are currently `Proposed`, so none is binding.** Treat them as
+the intended direction under review. Do not describe a change as violating an
+"accepted" ADR while that remains true.
+
+- Reading/navigating ADRs → the `adr-lookup` skill.
+- Writing, amending, accepting or superseding an ADR → the `adr-authoring`
+  skill, which carries the full propagation checklist.
+- Do not mark an ADR `Accepted` without an explicit decision from the user.
+- If a requested change conflicts with an ADR, state the conflict and offer a
+  superseding ADR; do not silently implement against it.
+- `npm run audit:adr` (inside `npm run check`) fails when the ADR files, the
+  digest, the master index and `adr-index.json` disagree.
+
 ## Git discipline
 
 Commits are GPG-signed; identity and signing
