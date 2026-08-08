@@ -100,6 +100,13 @@ Commit messages must be short, specific, and scoped to the actual change.
 Do not leave completed logical units of work uncommitted.
 **Do not add a "Co-Authored-By" trailer to any commit message.**
 
+**No external-project citations.** Never cite another project by name, by
+repository name, by tool name, or as an acknowledged source of a pattern —
+not in code, comments, documentation, ADRs, skills, or commit messages. This
+repository's conventions stand on their own. Write the rule, not its
+provenance: "Subjects follow Conventional Commits", never "as project X
+does".
+
 ### Commit message format
 
 Subjects follow Conventional Commits:
