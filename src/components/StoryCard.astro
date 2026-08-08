@@ -1,0 +1,12 @@
+---
+const { story } = Astro.props;
+const lang = Astro.currentLocale ?? Astro.params.lang ?? 'en';
+---
+<a class="story-card-link" href={`/${lang}/customer-stories/${story.slug}/`}>
+  <article class="card story-card">
+    <div class="metric">{story.metric}</div>
+    <h3>{story.headline}</h3>
+    <p>{story.context}</p>
+    <div class="company">{story.company} · Case evidence ↗</div>
+  </article>
+</a>

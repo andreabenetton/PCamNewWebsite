@@ -1,0 +1,12 @@
+---
+import { localizedPath } from '../lib/i18n';
+const { items = [] } = Astro.props;
+const lang = Astro.currentLocale ?? Astro.params.lang ?? 'en';
+const hrefFor = (href?: string) => href ? localizedPath(href, String(lang)) : undefined;
+---
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <a href={`/${lang}/`}>Home</a>
+  {items.map((item: { label: string; href?: string }) => (
+    <><span aria-hidden="true">/</span>{item.href ? <a href={hrefFor(item.href)}>{item.label}</a> : <span>{item.label}</span>}</>
+  ))}
+</nav>

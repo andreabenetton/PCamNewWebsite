@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import StoryCard from '../../../components/StoryCard.astro';
+import CtaPanel from '../../../components/CtaPanel.astro';
+import { stories } from '../../../data/stories';
+export function getStaticPaths(){return [{params:{lang:'en'}}];}
+---
+<BaseLayout title="Customer results in CNC automation and digital production | PCam" description="See customer-reported results from PCam CNC automation, MES, machine monitoring and EDM production projects.">
+<PageHero eyebrow="Customer stories" title="Proof from production, not adjectives." lead="For capital equipment and manufacturing software, technical credibility is built with real configurations, real constraints and measurable outcomes. The redesigned site elevates these references into a commercial proof layer." crumbs={[{label:'Customer stories'}]} />
+<section class="section"><div class="container"><div class="grid grid--3">{stories.map((story)=><StoryCard story={story}/>)}</div></div></section>
+<section class="section section--surface"><div class="container grid grid--2" style="gap:70px;align-items:start"><div><p class="eyebrow">Editorial model</p><h2>Next step: turn references into engineering case studies.</h2></div><div><p class="lead">The legacy site often stores a company name and a short quotation. A stronger case study should capture the initial constraint, machine list, automation architecture, implementation scope, resulting KPI and customer validation.</p><div class="feature-list" style="margin-top:26px"><div class="feature-item">Initial machine/process configuration</div><div class="feature-item">Production bottleneck and business target</div><div class="feature-item">PCam modules and third-party interfaces</div><div class="feature-item">Before/after KPI where customer-approved</div><div class="feature-item">Photos, cell layout and video</div><div class="feature-item">Named customer quotation and approval</div></div></div></div></section>
+<CtaPanel />
+</BaseLayout>

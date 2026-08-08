@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+export function getStaticPaths(){return [{params:{lang:'en'}}];}
+const rows = [
+  ['PCamMES', 'Latest entitled version', 'MES / scheduling / execution'],
+  ['PCamCell', 'Latest entitled version', 'Cell control / automation'],
+  ['PCamWire', 'Latest entitled version', 'Wire EDM CAD/CAM'],
+  ['PCamMMS', 'Latest entitled version', 'CMM programming']
+];
+---
+<BaseLayout noindex title="PCam release notes — integration mock" description="Prototype release-note experience for PCam customers, ready to connect to the existing release-note data source.">
+  <PageHero eyebrow="Prototype · Customer area" title="Release notes" lead="The current release-note data is dynamic. This page defines the future customer experience without inventing version history; the existing data source can be connected later through a server-side API." crumbs={[{label:'Support',href:'/en/support/'},{label:'Release notes'}]} />
+  <section class="section"><div class="container grid grid--2" style="gap:50px;align-items:start">
+    <div><p class="eyebrow">Browse by product</p><h2>Release information should be searchable, filterable and version-aware.</h2><p class="lead" style="margin-top:18px">Future integration can expose product, version, release date, changes, fixes and breaking notes from the existing TimeTracker release-note source.</p><div class="feature-list" style="margin-top:28px"><div class="feature-item">Filter by installed product</div><div class="feature-item">Compare current and target versions</div><div class="feature-item">Separate features, fixes and migration notes</div><div class="feature-item">Link relevant manuals and downloads</div></div></div>
+    <div class="mock-window"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div><div class="mock-body"><div class="spread"><div><p class="eyebrow">Release browser</p><h2 style="font-size:2.3rem">Your products</h2></div><span class="pill pill--red">Mock</span></div><div class="mock-list">{rows.map((row)=><div class="mock-list-row"><strong>{row[0]}</strong><span>{row[1]}</span><span>{row[2]}</span></div>)}</div></div></div>
+  </div></section>
+</BaseLayout>

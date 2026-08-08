@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import CtaPanel from '../../../components/CtaPanel.astro';
+export function getStaticPaths(){return [{params:{lang:'en'}}];}
+const { lang='en' }=Astro.params;
+---
+<BaseLayout lang={lang} title="Automation for tool & mould manufacturing" description="A practical engineering guide to CNC automation for high-mix tool and mould production: routing, pallets, tools, identification, robots, process control and measurement.">
+<PageHero eyebrow="Engineering guide · CNC automation" title="Automation for tool & mould manufacturing" lead="In high-mix production, a robot is only one actuator in a larger control problem. Reliable autonomy comes from knowing what can run, where it can run, which resources it needs and what to do when the nominal plan changes." crumbs={[{label:'Knowledge',href:'/en/knowledge/'},{label:'Automation for tool & mould'}]} actions={[{label:'Discuss an automation project',href:'/en/contact/'}]} />
+<section class="section"><div class="container article">
+  <p class="lead">Tool and mould production combines low repetition with expensive machine capacity, changing priorities and a large number of process resources. That makes automation fundamentally different from a fixed high-volume line.</p>
+  <h2>The automation unit is the process, not the robot</h2>
+  <p>A handling device can load a pallet. A production system must additionally know the job, workpiece identity, zero point, NC program, required tools, machine capability, current resource state and next routing step. PCamCell and PCamJobManager address this orchestration layer while PCam automation hardware performs the physical movement.</p>
+  <div class="callout"><strong>Design criterion:</strong> an unattended cell should be evaluated by productive hours recovered under real job variation—not by whether the robot can complete a scripted demonstration.</div>
+  <h2>Five layers that must agree</h2>
+</div><div class="container"><div class="engineering-diagram"><div><strong>Order</strong><span>priority, due date, part</span></div><div><strong>Process</strong><span>routing, operation, NC data</span></div><div><strong>Resources</strong><span>machine, pallet, tool, zero point</span></div><div><strong>Handling</strong><span>robot, magazine, stations</span></div><div><strong>Verification</strong><span>measurement, state, result</span></div></div></div><div class="container article">
+  <h2>Routing flexibility matters</h2>
+  <p>When several machines can execute an operation, automation should not turn that flexibility into a hard-coded sequence. The current PCamCell material explicitly distinguishes routing flexibility and machine flexibility: jobs may change operation order or move between capable machines as the production situation changes.</p>
+  <h2>Tool autonomy can be the hidden bottleneck</h2>
+  <p>Long unattended windows require more than pallet capacity. If the next job needs an unavailable cutter, wrong offset or exhausted tool life, the cell still stops. Digital tool identity, preset data and physical location therefore belong in the automation architecture.</p>
+  <h2>Measure exceptions, not only nominal cycle time</h2>
+  <p>Machine monitoring makes downtime, setup, maintenance and cycle behavior visible. That evidence is what allows an automation project to be tuned after commissioning instead of judged only at handover.</p>
+</div></section>
+<CtaPanel title="Planning an automated cell?" text="Start with machine capability, workpiece families, pallets, tools, process routes, handling weights and the unattended window you want to achieve." />
+</BaseLayout>

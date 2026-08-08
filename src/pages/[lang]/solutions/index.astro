@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import SolutionCard from '../../../components/SolutionCard.astro';
+import CtaPanel from '../../../components/CtaPanel.astro';
+export function getStaticPaths(){ return [{params:{lang:'en'}}]; }
+---
+<BaseLayout title="Automation & digital manufacturing solutions | PCam" description="Explore PCam solutions for CNC automation, MES, machine monitoring, tool management, EDM CAD/CAM and CMM programming.">
+  <PageHero eyebrow="Solutions" title="One engineering system. Six ways into it." lead="Start from the production constraint you need to solve. PCam combines software, machine connectivity and physical automation around high-mix tool, mould and precision manufacturing." crumbs={[{label:'Solutions'}]} />
+  <section class="section"><div class="container grid grid--3">
+    <SolutionCard index={1} title="CNC automation" text="Compact cells, six-axis robots, linear systems and gantry automation for unattended production." href="/en/solutions/cnc-automation/" tone="dark" />
+    <SolutionCard index={2} title="Digital production" text="Plan, execute and trace high-mix manufacturing from ERP intent to machine work." href="/en/solutions/digital-production/" />
+    <SolutionCard index={3} title="CNC monitoring" text="Make machine state, OEE, cycles, downtime and process signals visible in real time." href="/en/solutions/cnc-monitoring/" tone="red" />
+    <SolutionCard index={4} title="Tool management" text="Connect digital tool identity, physical location, preset data, offsets and stock." href="/en/solutions/tool-management/" />
+    <SolutionCard index={5} title="EDM CAD/CAM" text="Program wire and sink EDM around the realities of mould and electrode production." href="/en/solutions/edm-cam/" />
+    <SolutionCard index={6} title="Measurement" text="Program CMM inspection from solid models and integrate quality into automated flow." href="/en/solutions/measurement/" tone="dark" />
+  </div></section>
+  <CtaPanel />
+</BaseLayout>

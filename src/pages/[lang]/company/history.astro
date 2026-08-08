@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro'; import PageHero from '../../../components/PageHero.astro'; export function getStaticPaths(){return [{params:{lang:'en'}}];}
+const milestones=[
+['1994–1998','From CAD/CAM to automation','PCam is founded in 1994; the first WireCam is sold in Switzerland in 1996; in 1998 PCam begins in-house robot automation development.'],
+['1999–2002','First own robot systems','A new headquarters and the first automation system with a PCam robot follow in 1999. PCam reports 1,000+ PCamWire systems sold worldwide by 2000.'],
+['2003–2008','Expand the engineering stack','New R&D facilities in Cadenazzo, PCamDieSink, multi-robot automation projects, PCamPPS and a .NET generation of PCamCell appear in the company timeline.'],
+['2009–2014','Measurement and linear automation','PCam records robot-controlled CMM work, PCamLinear and additional CNC/HMI automation projects.'],
+['2015–2017','Large automation systems','The timeline highlights the Toolcraft gantry project and the introduction of PCamRoboCube.'],
+['2018–2022','MES and digital tools','PCam introduces PCamMES in 2020 and PCamToolManager with presetter, cabinet and CNC integration in 2021.'],
+['2023–2025','Broader monitoring and platform evolution','The current timeline notes monitoring extensions, machine-builder cooperation and continued PCamMES evolution.']
+];
+---
+<BaseLayout title="PCam history — from Wire EDM CAD/CAM to integrated automation" description="PCam company history from its 1994 founding through CAD/CAM, robotics, MES, tool management and integrated manufacturing automation.">
+<PageHero eyebrow="Company history" title="Three decades of moving from programs to processes." lead="PCam's timeline shows a consistent expansion: from machine programming, to robot handling, to production planning, monitoring, MES and integrated tool data." crumbs={[{label:'Company',href:'/en/company/'},{label:'History'}]} />
+<section class="section"><div class="container grid grid--2" style="gap:80px;align-items:start"><div><p class="eyebrow">1994 → today</p><h2>Technology changes. The production problem stays connected.</h2><p class="lead" style="margin-top:20px">The strongest story is not a list of launches; it is the accumulation of domain knowledge across software, machines and automation.</p></div><div class="timeline">{milestones.map((m)=><div class="timeline-item"><div class="year">{m[0]}</div><h3>{m[1]}</h3><p>{m[2]}</p></div>)}</div></div></section>
+</BaseLayout>

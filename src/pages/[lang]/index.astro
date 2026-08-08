@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SolutionCard from '../../components/SolutionCard.astro';
+import StoryCard from '../../components/StoryCard.astro';
+import SystemVisual from '../../components/SystemVisual.astro';
+import CtaPanel from '../../components/CtaPanel.astro';
+import { stories } from '../../data/stories';
+import { localizedPath } from '../../lib/i18n';
+
+export function getStaticPaths() { return [{ params: { lang: 'en' } }]; }
+const { lang = 'en' } = Astro.params;
+const lp = (path: string) => localizedPath(path, lang);
+
+const applications = [
+  { title: 'Run machines unattended', text: 'Connect jobs, pallets, tools and robots so production can continue beyond staffed hours.', href: '/en/applications/unattended-production/' },
+  { title: 'Connect mixed CNC fleets', text: 'Create one production layer across machines from different builders and generations.', href: '/en/applications/connect-cnc-machines/' },
+  { title: 'Plan high-mix production', text: 'Make changing priorities, resources and delivery dates visible and executable.', href: '/en/applications/production-planning/' },
+  { title: 'Control tools and offsets', text: 'Know what tool exists, where it is, its condition and the correct offset before machining starts.', href: '/en/applications/tool-data-management/' },
+  { title: 'Close the quality loop', text: 'Move measurement closer to production with CMM programming and automated inspection workflows.', href: '/en/applications/quality-measurement/' }
+];
+---
+<BaseLayout lang={lang} title="Integrated automation for tool & mould manufacturing | PCam" description="PCam integrates CNC automation, MES, machine monitoring, tool management, EDM CAD/CAM and CMM workflows for tool, mould and precision engineering.">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">Automation + digital production</p>
+        <h1>Turn CNC capacity into <span>productive hours.</span></h1>
+        <p class="lead">PCam connects machines, robots, pallets, tools, jobs and production data into one engineering system built for tool, mould and high-mix precision manufacturing.</p>
+        <div class="cluster hero-actions">
+          <a class="btn btn--primary" href={lp('/en/contact/')}>Discuss your production</a>
+          <a class="btn btn--outline" href={lp('/en/solutions/')}>Explore the system</a>
+        </div>
+        <div class="hero-proof">
+          <div><strong>30+ years</strong><span>focused on tool & mould manufacturing</span></div>
+          <div><strong>1,500+</strong><span>software customers reported by PCam</span></div>
+          <div><strong>180+</strong><span>integrated automation customers</span></div>
+        </div>
+      </div>
+      <SystemVisual />
+    </div>
+  </section>
+
+  <section class="trust-strip">
+    <div class="container trust-grid">
+      <div class="trust-item"><strong>CNC</strong><span>mixed machine connectivity</span></div>
+      <div class="trust-item"><strong>MES</strong><span>planning and execution</span></div>
+      <div class="trust-item"><strong>Robotics</strong><span>pallet and tool handling</span></div>
+      <div class="trust-item"><strong>CAD/CAM</strong><span>EDM and measurement</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-heading">
+        <div><p class="eyebrow">One production architecture</p><h2>Start with the constraint. Build the right system around it.</h2><p>PCam spans the layers that usually become separate projects: shop-floor data, planning, cell control, robotic handling, tool information, EDM programming and measurement.</p></div>
+        <a class="btn btn--outline" href={lp('/en/solutions/')}>All solutions</a>
+      </div>
+      <div class="grid grid--3">
+        <SolutionCard index={1} title="CNC automation" text="From compact one-machine cells to linear and gantry systems for multi-machine production." href="/en/solutions/cnc-automation/" tone="dark" />
+        <SolutionCard index={2} title="Digital production" text="MES, PPS and cell orchestration connect orders, resources, machines and execution." href="/en/solutions/digital-production/" />
+        <SolutionCard index={3} title="Machine intelligence" text="Monitor CNC state, OEE, cycle time, energy and production signals from one environment." href="/en/solutions/cnc-monitoring/" tone="red" />
+        <SolutionCard index={4} title="Tool management" text="Identify, locate, preset and transfer tool data across the workshop and automated cells." href="/en/solutions/tool-management/" />
+        <SolutionCard index={5} title="EDM CAD/CAM" text="Wire and sink EDM programming built around mould, electrode and automation workflows." href="/en/solutions/edm-cam/" />
+        <SolutionCard index={6} title="Measurement" text="CMM programming and inspection workflows designed to keep quality from becoming the bottleneck." href="/en/solutions/measurement/" tone="dark" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container">
+      <div class="section-heading"><div><p class="eyebrow">Applications</p><h2>What are you trying to improve?</h2><p>A buyer should not need to know the PCam product names before finding the right path.</p></div></div>
+      <div class="problem-list">
+        {applications.map((item, i) => <a class="problem-row" href={lp(item.href)}><span class="num">0{i+1}</span><h3>{item.title}</h3><p>{item.text}</p><span class="go">↗</span></a>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-heading"><div><p class="eyebrow">Customer evidence</p><h2>Engineering claims need production evidence.</h2><p>The current PCam reference base contains stronger commercial proof than the existing site structure makes visible. The redesign makes outcomes first-class content.</p></div><a class="btn btn--outline" href={lp('/en/customer-stories/')}>All customer stories</a></div>
+      <div class="grid grid--3">{stories.slice(0,3).map((story) => <StoryCard story={story} />)}</div>
+    </div>
+  </section>
+
+  <section class="section section--dark domain-band">
+    <div class="container domain-grid">
+      <div><p class="eyebrow">Built for the domain</p><h2>Automation is not a robot project.</h2><p class="lead">In high-mix tool and mould production, the hard problem is coordinating changing jobs, zero points, tools, pallets, NC programs, inspection and machine availability without losing process control.</p></div>
+      <div class="domain-list">
+        <div class="domain-item"><strong>High-mix / low-volume</strong><span>Routing and priorities change more often than in serial production.</span></div>
+        <div class="domain-item"><strong>Mixed machine fleets</strong><span>Automation must bridge different CNC controls, process types and generations.</span></div>
+        <div class="domain-item"><strong>Tool & pallet logistics</strong><span>Availability and identification are part of execution, not a separate inventory problem.</span></div>
+        <div class="domain-item"><strong>Closed-loop quality</strong><span>Measurement needs to feed the process rather than wait at the end of it.</span></div>
+        <div class="domain-item"><strong>ERP to machine</strong><span>Business intent only creates value when it becomes executable shop-floor instructions.</span></div>
+        <div class="domain-item"><strong>Unattended hours</strong><span>The target is reliable productive time, not automation hardware for its own sake.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-heading"><div><p class="eyebrow">From data to motion</p><h2>A coherent stack from ERP intent to physical execution.</h2></div></div>
+      <div class="architecture">
+        <p class="lead">The exact modules depend on the plant, but the architecture follows a stable engineering logic.</p>
+        <div class="arch-flow">
+          <div class="arch-node"><strong>ERP / orders</strong><span>Commercial demand, due dates, priorities</span></div>
+          <div class="arch-node"><strong>Planning / MES</strong><span>Resources, sequence, files, traceability</span></div>
+          <div class="arch-node"><strong>Cell control</strong><span>Jobs, pallets, tools, robot and routing</span></div>
+          <div class="arch-node"><strong>CNC + CMM</strong><span>Machining, EDM, inspection, machine data</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CtaPanel />
+</BaseLayout>

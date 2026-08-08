@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import CtaPanel from '../../../components/CtaPanel.astro';
+import { localizedPath } from '../../../lib/i18n';
+export function getStaticPaths(){return [{params:{lang:'en'}}];}
+const { lang='en' } = Astro.params;
+const lp = (path: string) => localizedPath(path, lang);
+const apps=[
+ {n:'01',title:'Unattended production',text:'Extend productive machine hours with controlled jobs, pallets, tools, robots and inspection.',href:'/en/applications/unattended-production/'},
+ {n:'02',title:'Connect CNC machines',text:'Build one production layer across mixed machine builders, controls and process types.',href:'/en/applications/connect-cnc-machines/'},
+ {n:'03',title:'Production planning',text:'Keep priorities, resources, delivery dates and executable work synchronized in high-mix production.',href:'/en/applications/production-planning/'},
+ {n:'04',title:'Tool data management',text:'Control tool identity, location, preset values, wear, offsets and availability before the spindle waits.',href:'/en/applications/tool-data-management/'},
+ {n:'05',title:'Quality & measurement',text:'Move CMM programming and inspection into the same automated production flow.',href:'/en/applications/quality-measurement/'}
+];
+---
+<BaseLayout title="Applications for tool & mould automation | PCam" description="Explore PCam applications for unattended production, CNC integration, production planning, tool data management and CMM quality workflows.">
+<PageHero eyebrow="Applications" title="Start from what must improve on the shop floor." lead="Products are implementation choices. Applications are the business and engineering problems that justify them." crumbs={[{label:'Applications'}]} />
+<section class="section"><div class="container"><div class="problem-list">{apps.map((a)=><a class="problem-row" href={lp(a.href)}><span class="num">{a.n}</span><h3>{a.title}</h3><p>{a.text}</p><span class="go">↗</span></a>)}</div></div></section>
+<CtaPanel />
+</BaseLayout>

@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-08-08T09:44:48.165Z",
+  "algorithm": "sha256",
+  "files": [
+    {
+      "path": "/media/company/pcam-bear.webp",
+      "bytes": 36572,
+      "sha256": "0c9d8db60f427783f16e8c7d55e5a0b81b12ddf4ec954c2afb6af6eeb84e5a07"
+    },
+    {
+      "path": "/media/products/pcamfmc2.webp",
+      "bytes": 77390,
+      "sha256": "45a1803d055386baa09572f5258f9c3ef10b07e80cfac104ff661c9f673ff47b"
+    }
+  ],
+  "duplicates": []
+}

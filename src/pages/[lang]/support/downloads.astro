@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro'; import PageHero from '../../../components/PageHero.astro'; export function getStaticPaths(){return [{params:{lang:'en'}}];}
+const files=[['PCamMES','2026.1','Windows · 428 MB'],['PCamMonitor','2026.1','Windows · 116 MB'],['PCamWire','2026.2','Windows · 391 MB'],['PCamMMS','2026.1','Windows · 302 MB']];
+---
+<BaseLayout noindex title="PCam customer downloads — prototype" description="Prototype customer download area for PCam software.">
+<PageHero eyebrow="Prototype · Customer area" title="Software downloads" lead="Static mockup. Authentication, entitlements, signed URLs and release metadata will later be connected to the PCam service layer." crumbs={[{label:'Support',href:'/en/support/'},{label:'Downloads'}]} />
+<section class="section"><div class="container"><div class="mock-window"><div class="mock-bar"><span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span></div><div class="mock-body"><div class="spread"><div><p class="eyebrow">Your software</p><h2 style="font-size:2.4rem">Downloads</h2></div><span class="pill pill--red">Mock data</span></div><div class="mock-list">{files.map((f)=><div class="mock-list-row"><strong>{f[0]}</strong><span>Version {f[1]}</span><span>{f[2]}</span></div>)}</div><p class="small" style="margin-top:18px">Future integration: customer entitlement → product/version → R2 or protected download URL → audit log.</p></div></div></div></section>
+</BaseLayout>

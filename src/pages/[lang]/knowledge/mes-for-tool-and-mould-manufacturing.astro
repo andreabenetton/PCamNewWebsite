@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import CtaPanel from '../../../components/CtaPanel.astro';
+export function getStaticPaths(){return [{params:{lang:'en'}}];}
+const { lang='en' }=Astro.params;
+---
+<BaseLayout lang={lang} title="MES for tool & mould manufacturing" description="How MES and production planning connect ERP, resources, CNC machines, tools and execution in high-mix tool, mould and precision manufacturing.">
+<PageHero eyebrow="Engineering guide · MES" title="MES for high-mix precision manufacturing" lead="The useful boundary between ERP and MES is not a software-category argument. It is the point where a production order must become an executable sequence constrained by real machines, tools, people, files and shop-floor state." crumbs={[{label:'Knowledge',href:'/en/knowledge/'},{label:'MES for tool & mould'}]} />
+<section class="section"><div class="container article">
+<p class="lead">PCamMES and PCamPPS are positioned around production execution and planning for precision engineering, tool making, injection moulding, blanking and extrusion tooling. The engineering value comes from reducing the gap between planned work and executable work.</p>
+<h2>ERP knows demand. The shop floor knows constraints.</h2><p>ERP can release an order and due date, but high-mix production still has to resolve operation sequence, machine suitability, tool readiness, NC data, pallets, inspection and actual availability. The execution layer must continuously reconcile those constraints.</p>
+<h2>Data transparency should remove coordination work</h2><p>The current PCamMES material emphasizes order visibility, digital warehouse management, machine availability, NC-program assignment, tool-life information and resource costing. Those are useful when they remove searches, prevent invalid setups and expose an actionable next step.</p>
+<h2>Planning and automation are coupled</h2><p>An automated machine is not necessarily an available resource: magazine capacity, tools, fixtures, maintenance state and upstream operations can all block execution. A planning system becomes more valuable when those constraints are visible before the job reaches the machine.</p>
+<div class="callout"><strong>Practical principle:</strong> the MES should not become another place where operators manually restate what the CNC, tool database or ERP already knows. Interfaces should move authoritative data between systems and preserve traceability.</div>
+<h2>A useful integration sequence</h2>
+</div><div class="container"><div class="engineering-diagram"><div><strong>ERP</strong><span>order, customer, date</span></div><div><strong>PPS / MES</strong><span>plan, resource, operation</span></div><div><strong>Cell manager</strong><span>executable routing</span></div><div><strong>CNC / CMM</strong><span>process and state</span></div><div><strong>Feedback</strong><span>time, result, traceability</span></div></div></div></section>
+<CtaPanel title="Trying to connect ERP and the shop floor?" text="Map the authoritative data source for every production object first: order, operation, resource, NC file, pallet, tool, measurement and machine state." />
+</BaseLayout>

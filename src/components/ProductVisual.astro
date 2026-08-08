@@ -1,0 +1,14 @@
+---
+import { mediaUrl, productMedia } from '../data/media';
+const { product } = Astro.props;
+const media = productMedia[product.slug];
+const assetUrl = media ? mediaUrl(media.target) : undefined;
+---
+<div class={`product-media ${media ? 'product-media--has-source' : ''}`}>
+  <div class="product-media-fallback" aria-hidden="true">
+    <div class="orbit"></div><div class="core">{product.name}</div>
+    <span class="node node--1">Production data</span><span class="node node--2">Machine interface</span><span class="node node--3">Process control</span><span class="node node--4">Traceability</span>
+  </div>
+  {media && <img src={assetUrl} alt={media.alt} loading="eager" decoding="async" data-product-media onerror="this.style.display='none'" />}
+  {media && <div class="media-source-note"><span>PCam engineering asset · mapped from the current site</span><span>{media.source === 'mssql-blob' ? 'Legacy BLOB → Cloudflare' : 'WordPress asset → Cloudflare'}</span></div>}
+</div>

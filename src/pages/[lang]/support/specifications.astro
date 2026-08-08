@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+export function getStaticPaths(){return [{params:{lang:'en'}}];}
+
+const workstation = [
+  ['PCamWire', 'Wire EDM CAD/CAM', 'Windows 11', 'Intel Core i7/i9 · 32 GB RAM · 1 TB SSD · .NET 6+'],
+  ['PCamDieSink', 'Sink EDM CAD/CAM', 'Windows 11', 'Intel Core i7/i9 · 32 GB RAM · 1 TB SSD · .NET 6+'],
+  ['PCamMMS', 'CMM programming', 'Windows 11', 'Intel Core i7/i9 · 32 GB RAM · 1 TB SSD · .NET 6+'],
+  ['PCamCell', 'Automation / FMC control', 'Windows 11', 'Intel Core i7/i9 · 32 GB RAM · 1 TB SSD · .NET 6+ · two Ethernet interfaces'],
+  ['PCamJobManager', 'Job management', 'Windows 11', 'Intel Core i7/i9 · 32 GB RAM · 1 TB SSD · .NET 6+'],
+  ['PCamPPS', 'Process planning', 'Windows 11', 'CPU base clock 3.2 GHz+ · 32 GB RAM · 1 TB SSD · .NET 6+'],
+  ['PCamMonitor Server', 'Machine monitoring', 'Windows 11', 'CPU base clock 3.2 GHz+ · 32 GB RAM · 1 TB SSD · .NET 6+']
+];
+
+const server = [
+  ['PCamTool Management Server', 'Virtualized or Windows server', '4 virtual CPUs · 30 GB disk · 3 GB RAM + 1 GB per operator · two fixed IPs'],
+  ['PCamMES Server', 'Virtualized or Windows server', '4 virtual CPUs · 30 GB disk (+20 GB when sharing PPS DB) · 5 GB RAM + 1 GB per user · two fixed IPs'],
+  ['MSSQL', 'SQL Server 2019 or later', 'Current legacy specification lists TCP 1433 / UDP 1434; security and TLS requirements must be revalidated for new deployments']
+];
+---
+<BaseLayout title="PCam software technical requirements" description="PCam workstation, server, browser, scanner, backup and antivirus requirements for automation, MES, monitoring, EDM CAD/CAM and measurement software.">
+  <PageHero eyebrow="Customer support · Requirements" title="Technical requirements" lead="A cleaner, maintainable version of the current PCam specification page. Values below reflect the published legacy requirements and should be validated against each released software version before final migration." crumbs={[{label:'Support',href:'/en/support/'},{label:'Technical requirements'}]} />
+
+  <section class="section"><div class="container">
+    <div class="section-heading"><div><p class="eyebrow">Engineering workstations</p><h2>Desktop software requirements.</h2><p>Keep requirements next to the software they apply to, not buried inside a general download area.</p></div></div>
+    <div class="requirements-grid">
+      {workstation.map(([name, role, os, hardware]) => <article class="card requirement-card"><span class="category">{role}</span><h3>{name}</h3><dl><div><dt>Operating system</dt><dd>{os}</dd></div><div><dt>Hardware</dt><dd>{hardware}</dd></div></dl></article>)}
+    </div>
+  </div></section>
+
+  <section class="section section--surface"><div class="container">
+    <div class="section-heading"><div><p class="eyebrow">Server-side components</p><h2>Infrastructure requirements.</h2><p>Server sizing should be confirmed against customer count, machine count, data retention and enabled modules during project engineering.</p></div></div>
+    <div class="grid grid--3">{server.map(([name, role, hardware]) => <article class="card requirement-card"><span class="category">{role}</span><h3>{name}</h3><p>{hardware}</p></article>)}</div>
+  </div></section>
+
+  <section class="section"><div class="container grid grid--2" style="gap:60px;align-items:start">
+    <div><p class="eyebrow">Clients & peripherals</p><h2>Shop-floor access.</h2><div class="feature-list" style="margin-top:28px"><div class="feature-item"><strong>PCam Tool Management web client:</strong> current requirement is a Chrome browser.</div><div class="feature-item"><strong>PCamMES web client:</strong> current requirement is a Chrome browser.</div><div class="feature-item"><strong>Tablet reference:</strong> current site lists Xoro MegaPAD 1564 V4 15.6&quot;, 16 GB.</div><div class="feature-item"><strong>DPM scanners:</strong> current references include Datalogic PM9501-DPM910RBK10 wireless and Zebra DS4608-DPE wired.</div></div></div>
+    <div><p class="eyebrow">Operations</p><h2>Backup and antivirus exclusions.</h2><div class="feature-list" style="margin-top:28px"><div class="feature-item"><strong>Antivirus exclusion:</strong> <code>%programdata%\PLCK</code></div><div class="feature-item"><strong>Backup:</strong> <code>%programdata%\PCamSettings</code></div><div class="feature-item"><strong>Backup:</strong> <code>%appdata%\PCamSettings</code></div></div><p class="small" style="margin-top:20px">These paths are reproduced from the current support specification and should be release-controlled in the future documentation system.</p></div>
+  </div></section>
+</BaseLayout>

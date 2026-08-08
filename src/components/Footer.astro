@@ -1,0 +1,39 @@
+---
+const { lang = Astro.currentLocale ?? 'en' } = Astro.props;
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <img class="footer-brand" src="/brand/pcam-logo.webp" alt="PCam" width="246" height="89" />
+        <p class="footer-copy">Integrated automation, digital production, CNC monitoring and CAD/CAM for tool, mould and precision engineering.</p>
+        <p class="footer-copy">Al Pian 5 · 6593 Cadenazzo · Switzerland<br/>info@PCam.com</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href={`/${lang}/solutions/`}>Solutions</a>
+        <a href={`/${lang}/applications/`}>Applications</a>
+        <a href={`/${lang}/customer-stories/`}>Customer stories</a>
+        <a href={`/${lang}/company/`}>Company</a>
+      </div>
+      <div class="footer-col">
+        <h4>Customers</h4>
+        <a href={`/${lang}/support/`}>Support hub</a>
+        <a href={`/${lang}/support/downloads/`}>Downloads</a>
+        <a href={`/${lang}/support/manuals/`}>Manuals</a>
+        <a href={`/${lang}/support/licenses/`}>Licenses</a>
+        <a href={`/${lang}/support/specifications/`}>Technical requirements</a>
+      </div>
+      <div class="footer-col">
+        <h4>Partners</h4>
+        <a href={`/${lang}/partners/`}>Partner network</a>
+        <a href={`/${lang}/partners/portal/`}>Partner area</a>
+        <a href={`/${lang}/contact/`}>Sales contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 PCam. Prototype redesign.</span>
+      <span>English implemented · architecture ready for DE · IT · FR · ES · PT</span>
+    </div>
+  </div>
+</footer>

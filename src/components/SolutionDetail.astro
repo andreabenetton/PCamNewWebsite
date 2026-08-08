@@ -1,0 +1,21 @@
+---
+import PageHero from './PageHero.astro';
+import ProductCard from './ProductCard.astro';
+import CtaPanel from './CtaPanel.astro';
+import { products } from '../data/products';
+
+const { title, eyebrow, lead, problem, approach, bullets = [], productSlugs = [], architecture = [] } = Astro.props;
+const selected = productSlugs.map((slug: string) => products.find((p) => p.slug === slug)).filter(Boolean);
+---
+<PageHero eyebrow={eyebrow} title={title} lead={lead} crumbs={[{ label: 'Solutions', href: '/en/solutions/' }, { label: title }]} actions={[{ label: 'Talk to an engineer', href: '/en/contact/' }]} />
+<section class="section">
+  <div class="container grid grid--2" style="gap:70px;align-items:start">
+    <div><p class="eyebrow">The production problem</p><h2 style="font-size:clamp(2rem,4vw,3.5rem)">{problem}</h2></div>
+    <div><p class="lead">{approach}</p><div class="feature-list" style="margin-top:28px">{bullets.map((b:string) => <div class="feature-item">{b}</div>)}</div></div>
+  </div>
+</section>
+{architecture.length > 0 && <section class="section section--surface"><div class="container"><div class="section-heading"><div><p class="eyebrow">Engineering architecture</p><h2>How the pieces fit together.</h2></div></div><div class="architecture"><div class="arch-flow">{architecture.map((n:any) => <div class="arch-node"><strong>{n.title}</strong><span>{n.text}</span></div>)}</div></div></div></section>}
+<section class="section">
+  <div class="container"><div class="section-heading"><div><p class="eyebrow">Relevant PCam products</p><h2>Components of the solution.</h2></div></div><div class="product-grid">{selected.map((p:any) => <ProductCard product={p}/>)}</div></div>
+</section>
+<CtaPanel />

@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import CtaPanel from '../../../components/CtaPanel.astro';
+export function getStaticPaths(){return [{params:{lang:'en'}}];}
+const { lang='en' }=Astro.params;
+---
+<BaseLayout lang={lang} title="Unattended CNC machining: engineering checklist" description="Engineering checklist for reliable unattended CNC machining across jobs, pallets, tools, robots, measurement, monitoring and recovery logic.">
+<PageHero eyebrow="Engineering guide · Utilization" title="Engineering reliable unattended CNC machining" lead="Night and weekend production is not created by adding a robot. It is created by removing the reasons the system needs a person between jobs." crumbs={[{label:'Knowledge',href:'/en/knowledge/'},{label:'Unattended CNC machining'}]} actions={[{label:'Assess your unattended potential',href:'/en/contact/'}]} />
+<section class="section"><div class="container article">
+<p class="lead">The commercial target is productive spindle time outside staffed hours. Reaching it means engineering the whole chain from job release to recovery when a resource is missing or a process result is outside expectations.</p>
+<h2>1. The next executable job must be known</h2><p>Priority alone is not enough. The system needs to know which operations are ready, which machines are capable, and which prerequisites have completed.</p>
+<h2>2. Workholding and identity must be deterministic</h2><p>Pallet, workpiece and electrode identity must survive movement between storage, machines, washing and measurement. DMC, RFID and other identifiers are useful when they eliminate ambiguous manual selection.</p>
+<h2>3. Tool readiness must cover the autonomy window</h2><p>Required cutters, sister tools, remaining life, preset values and physical locations should be known before the last staffed shift ends. Tool-management capacity can therefore limit unattended capacity even when pallet storage is sufficient.</p>
+<h2>4. Machine interfaces must expose enough state</h2><p>Start, completion, program state, alarms, zero points and process-specific results need reliable interfaces. Mixed fleets often require several control protocols behind one normalized production model.</p>
+<h2>5. Quality must not become the morning bottleneck</h2><p>Where the process allows it, CMM and preset/inspection operations can be part of the route. Measurement then becomes a production resource with scheduling and traceability rather than an isolated end-of-line activity.</p>
+<h2>6. Exceptions need an engineered outcome</h2><p>Unattended systems should distinguish recoverable states from conditions that require intervention, preserve the job context, and notify the right person with enough information to act.</p>
+<div class="callout"><strong>Success metric:</strong> measure the additional productive hours, failure causes and recovery burden after commissioning. That is stronger evidence than robot utilization by itself.</div>
+</div></section>
+<CtaPanel />
+</BaseLayout>

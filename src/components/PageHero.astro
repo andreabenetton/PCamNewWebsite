@@ -1,0 +1,17 @@
+---
+import Breadcrumbs from './Breadcrumbs.astro';
+import { localizedPath } from '../lib/i18n';
+const { eyebrow, title, lead, crumbs = [], actions = [] } = Astro.props;
+const lang = String(Astro.currentLocale ?? Astro.params.lang ?? 'en');
+---
+<section class="page-hero">
+  <div class="container">
+    <Breadcrumbs items={crumbs} />
+    <p class="eyebrow">{eyebrow}</p>
+    <h1>{title}</h1>
+    <p class="lead">{lead}</p>
+    {actions.length > 0 && <div class="cluster" style="margin-top:30px">
+      {actions.map((action: any, index: number) => <a class={`btn ${index === 0 ? 'btn--primary' : 'btn--outline'}`} href={localizedPath(action.href, lang)}>{action.label}</a>)}
+    </div>}
+  </div>
+</section>

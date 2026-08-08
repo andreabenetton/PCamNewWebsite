@@ -1,0 +1,21 @@
+{
+  "pcammes": {"target":"/media/products/pcammes-main-board.png","legacyUrl":"https://en.pcam.com/images/Module777.png","alt":"PCamMES Main Board production dashboard","source":"mssql-blob"},
+  "pcampps": {"target":"/media/products/pcampps-resources.jpg","legacyUrl":"https://en.pcam.com/images/Module623.jpg","alt":"PCamPPS production resource planning view","source":"mssql-blob"},
+  "pcammonitor": {"target":"/media/products/pcammonitor-multios.jpg","legacyUrl":"https://en.pcam.com/images/Module723.jpg","alt":"PCamMonitor multi-platform CNC monitoring view","source":"mssql-blob"},
+  "pcamiot": {"target":"/media/products/pcamiot-dashboard.jpg","legacyUrl":"https://en.pcam.com/images/Module630.jpg","alt":"PCamIoT production dashboard","source":"mssql-blob"},
+  "pcamtoolmanager": {"target":"/media/products/pcamtoolmanager-magazines.jpg","legacyUrl":"https://en.pcam.com/images/Module11404.jpg","alt":"PCamToolManager digital tool magazine management","source":"mssql-blob"},
+  "pcamcell": {"target":"/media/products/pcamcell-one-machine.jpg","legacyUrl":"https://en.pcam.com/images/Module647.jpg","alt":"PCamCell one-machine automation configuration","source":"mssql-blob"},
+  "pcamjobmanager": {"target":"/media/products/pcamjobmanager-parallel.png","legacyUrl":"https://en.pcam.com/images/Module11167.png","alt":"PCamJobManager parallel production movements","source":"mssql-blob"},
+  "pcamwsm": {"target":"/media/products/pcamwsm-business-solution.jpg","legacyUrl":"https://en.pcam.com/images/Module706.jpg","alt":"PCamWSM business-system integration view","source":"mssql-blob"},
+  "pcamrobocube": {"target":"/media/products/pcamrobocube.jpg","legacyUrl":"https://en.pcam.com/images/Module715.jpg","alt":"PCamRoboCube automated pallet and tool handling cell","source":"mssql-blob"},
+  "pcamfmc": {"target":"/media/products/pcamfmc.jpg","legacyUrl":"https://en.pcam.com/images/Module77.jpg","alt":"PCamFMC six-axis flexible machining cell robot","source":"mssql-blob"},
+  "pcamfmc2": {"target":"/media/products/pcamfmc2.webp","legacyUrl":"https://en.pcam.com/wp-content/uploads/sites/4/2015/07/project1312-prj.webp","alt":"PCamFMC2 automation project rendering","source":"wordpress-static","bundled":true},
+  "pcamlinear": {"target":"/media/products/pcamlinear.jpg","legacyUrl":"https://en.pcam.com/images/Module11241.jpg","alt":"PCamLinear six-axis robot on linear seventh axis","source":"mssql-blob"},
+  "pcamgantry": {"target":"/media/products/pcamgantry.jpg","legacyUrl":"https://en.pcam.com/images/Module488.jpg","alt":"PCamGantry multi-machine automation system","source":"mssql-blob"},
+  "pcamcobot": {"target":"/media/products/pcamcobot.png","legacyUrl":"https://en.pcam.com/images/Module11148.png","alt":"PCamCobot collaborative six-axis robot","source":"mssql-blob"},
+  "pcamagv": {"target":"/media/products/pcamagv.jpg","legacyUrl":"https://en.pcam.com/images/Module11150.jpg","alt":"PCamAGV autonomous material handling vehicle","source":"mssql-blob"},
+  "pcamcube": {"target":"/media/products/pcamcube.png","legacyUrl":"https://en.pcam.com/images/Module11294.png","alt":"PCamCube compact automation cell","source":"mssql-blob"},
+  "pcamwire": {"target":"/media/products/pcamwire.webp","legacyUrl":"https://en.pcam.com/images/Module342.webp","alt":"PCamWire wire EDM CAD/CAM programming interface","source":"mssql-blob"},
+  "pcamdiesink": {"target":"/media/products/pcamdiesink.jpg","legacyUrl":"https://en.pcam.com/images/Module11170.jpg","alt":"PCamDieSink EDM programming workflow","source":"mssql-blob"},
+  "pcammms": {"target":"/media/products/pcammms-vision-preset.jpg","legacyUrl":"https://en.pcam.com/images/Module554.jpg","alt":"PCamMMS vision preset and measurement workflow","source":"mssql-blob"}
+}

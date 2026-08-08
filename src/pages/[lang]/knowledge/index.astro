@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import CtaPanel from '../../../components/CtaPanel.astro';
+export function getStaticPaths(){ return [{params:{lang:'en'}}]; }
+const { lang='en' } = Astro.params;
+const articles = [
+  {topic:'Automation engineering', title:'Automation for tool & mould manufacturing', text:'Why high-mix automation is a problem of routing, resources, identification and process control—not simply robot loading.', href:`/${lang}/knowledge/automation-for-tool-and-mould-making/`},
+  {topic:'MES & execution', title:'MES for high-mix precision manufacturing', text:'A practical model for connecting ERP intent, process planning, machine execution, tools and traceability in a toolroom.', href:`/${lang}/knowledge/mes-for-tool-and-mould-manufacturing/`},
+  {topic:'CNC utilization', title:'Engineering reliable unattended machining', text:'The conditions that must be controlled before night and weekend hours can become dependable production capacity.', href:`/${lang}/knowledge/unattended-cnc-machining/`}
+];
+---
+<BaseLayout lang={lang} title="Tool & mould automation knowledge" description="Engineering guides from PCam on CNC automation, MES, unattended machining, machine integration, tool management and high-mix precision production.">
+  <PageHero eyebrow="Engineering knowledge" title="Make the production model understandable before selling the module." lead="PCam works across software, CNC controls, robotic handling, tools, pallets, EDM and measurement. This knowledge area explains how those layers interact in tool, mould and high-mix precision manufacturing." crumbs={[{label:'Knowledge'}]} />
+  <section class="section"><div class="container"><div class="knowledge-grid">{articles.map((a)=><a class="card knowledge-card" href={a.href}><div><span class="topic">{a.topic}</span><h3>{a.title}</h3><p>{a.text}</p></div><span class="arrow">Read engineering guide ↗</span></a>)}</div></div></section>
+  <section class="section section--surface"><div class="container grid grid--2" style="gap:70px;align-items:start"><div><p class="eyebrow">Domain focus</p><h2>Why tool & mould production is different.</h2></div><div class="feature-list"><div class="feature-item">High mix and low repetition make fixed sequences brittle.</div><div class="feature-item">Zero points, pallets, electrodes and tools are production resources with identity and state.</div><div class="feature-item">Multiple CNC technologies must often share one job flow: milling, EDM, grinding and CMM.</div><div class="feature-item">Planning quality depends on live availability, not only ERP master data.</div><div class="feature-item">Unattended production depends on exception handling as much as nominal robot motion.</div><div class="feature-item">Measurement and tool data need to close the loop before the next operation begins.</div></div></div></section>
+  <CtaPanel />
+</BaseLayout>

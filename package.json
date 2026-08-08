@@ -1,0 +1,35 @@
+{
+  "name": "pcam-astro-redesign",
+  "private": true,
+  "version": "0.3.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "sync": "astro sync",
+    "audit": "node scripts/audit-project.mjs && node scripts/audit-routes.mjs",
+    "check": "npm run audit && astro sync && tsc --noEmit",
+    "build": "astro build",
+    "preview": "astro preview",
+    "media:sync": "node scripts/sync-legacy-media.mjs",
+    "deploy:staging": "npm run check && npm run build && node scripts/verify-clean-git.mjs && wrangler deploy --env staging",
+    "deploy:production": "npm run check && npm run build && node scripts/verify-clean-git.mjs && wrangler deploy",
+    "prebuild": "node scripts/generate-sitemap.mjs",
+    "audit:routes": "node scripts/audit-routes.mjs",
+    "media:hash": "node scripts/hash-media.mjs"
+  },
+  "dependencies": {
+    "@astrojs/react": "^5.0.2",
+    "astro": "^7.2.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "typescript": "^6.0.2",
+    "wrangler": "^4.0.0"
+  }
+}

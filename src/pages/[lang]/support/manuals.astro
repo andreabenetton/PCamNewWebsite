@@ -1,0 +1,7 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro'; import PageHero from '../../../components/PageHero.astro'; export function getStaticPaths(){return [{params:{lang:'en'}}];}
+---
+<BaseLayout noindex title="PCam manuals — prototype customer documentation" description="Prototype manuals and product documentation area for PCam customers.">
+<PageHero eyebrow="Prototype · Customer area" title="Manuals & documentation" lead="A future searchable documentation library organized by product, version and workflow instead of a single password-protected page." crumbs={[{label:'Support',href:'/en/support/'},{label:'Manuals'}]} />
+<section class="section"><div class="container"><div class="grid grid--3">{['Automation & cells','Digital production','CAD/CAM & measurement'].map((group,i)=><article class="card" style="padding:28px"><span class="pill">0{i+1}</span><h3 style="margin-top:28px">{group}</h3><p class="muted" style="margin-top:12px">Installation, operation, interface and troubleshooting documentation grouped by installed product and software version.</p><button class="btn btn--outline" style="margin-top:20px" type="button" disabled aria-disabled="true">Browse mock library</button></article>)}</div></div></section>
+</BaseLayout>

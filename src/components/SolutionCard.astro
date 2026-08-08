@@ -1,0 +1,14 @@
+---
+import { localizedPath } from '../lib/i18n';
+const { index, title, text, href, tone = '' } = Astro.props;
+const lang = String(Astro.currentLocale ?? Astro.params.lang ?? 'en');
+const toneClass = tone ? ` solution-card--${tone}` : '';
+---
+<a href={localizedPath(href, lang)} class={`card card--flat solution-card${toneClass}`}>
+  <span class="index">{String(index).padStart(2,'0')}</span>
+  <div>
+    <h3>{title}</h3>
+    <p>{text}</p>
+    <span class="arrow" aria-hidden="true">↗</span>
+  </div>
+</a>

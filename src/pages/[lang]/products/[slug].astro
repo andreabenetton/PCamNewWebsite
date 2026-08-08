@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import ProductCard from '../../../components/ProductCard.astro';
+import ProductVisual from '../../../components/ProductVisual.astro';
+import StoryCard from '../../../components/StoryCard.astro';
+import VideoFrame from '../../../components/VideoFrame.astro';
+import CtaPanel from '../../../components/CtaPanel.astro';
+import { products } from '../../../data/products';
+import { stories } from '../../../data/stories';
+import { videos } from '../../../data/videos';
+
+export function getStaticPaths() { return products.map((product) => ({ params: { lang: 'en', slug: product.slug }, props: { product } })); }
+const { product } = Astro.props;
+const { lang = 'en' } = Astro.params;
+const related = products.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0,3);
+const storyMatches = stories.filter((s) => s.products.some((name) => name.toLowerCase().replaceAll(' ','') === product.name.toLowerCase().replaceAll(' ',''))).slice(0,2);
+const video = videos.find((v) => v.product === product.name);
+---
+<BaseLayout lang={lang} title={`${product.name} — ${product.eyebrow}`} description={product.summary}>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.summary,
+    brand: { '@type': 'Brand', name: 'PCam' },
+    manufacturer: { '@type': 'Organization', name: 'PCam' },
+    category: product.eyebrow,
+    url: `https://pcam.com/${lang}/products/${product.slug}/`
+  })}></script>
+  <section class="page-hero">
+    <div class="container">
+      <Breadcrumbs items={[{label:'Products',href:'/en/products/'},{label:product.name}]} />
+      <div class="product-hero-grid">
+        <div>
+          <p class="eyebrow">{product.eyebrow}</p>
+          <h1>{product.name}</h1>
+          <p class="lead">{product.summary}</p>
+          <div class="cluster" style="margin-top:28px"><a class="btn btn--primary" href={`/${lang}/contact/`}>Discuss this application</a><a class="btn btn--outline" href={product.source}>Current PCam page ↗</a></div>
+        </div>
+        <ProductVisual product={product} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section"><div class="container grid grid--2" style="gap:70px;align-items:start">
+    <div><p class="eyebrow">Why it exists</p><h2 style="font-size:clamp(2rem,4vw,3.5rem)">{product.buyerProblem}</h2></div>
+    <div><p class="lead">Designed for {product.bestFor.join(', ').toLowerCase()}.</p><div class="cluster" style="margin-top:20px">{product.bestFor.map((item:string) => <span class="pill pill--red">{item}</span>)}</div></div>
+  </div></section>
+
+  <section class="section section--surface"><div class="container grid grid--2" style="gap:60px;align-items:start">
+    <div><p class="eyebrow">Capabilities</p><h2>What the system controls.</h2><div class="feature-list" style="margin-top:28px">{product.capabilities.map((item:string) => <div class="feature-item">{item}</div>)}</div></div>
+    <div><p class="eyebrow">Operational outcomes</p><h2>What should improve.</h2><div class="feature-list" style="margin-top:28px">{product.outcomes.map((item:string) => <div class="feature-item">{item}</div>)}</div></div>
+  </div></section>
+
+  {product.specs?.length > 0 && <section class="section"><div class="container grid grid--2" style="gap:70px;align-items:start"><div><p class="eyebrow">Selected technical data</p><h2>Engineering details that help qualify the fit.</h2><p class="lead" style="margin-top:20px">Final configuration and limits depend on the project. These values reproduce selected data from the current PCam product page.</p></div><dl class="spec-table">{product.specs.map((spec:any) => <div class="spec-row"><dt>{spec.label}</dt><dd>{spec.value}</dd></div>)}</dl></div></section>}
+
+  {product.integration?.length > 0 && <section class="section section--surface"><div class="container"><div class="section-heading"><div><p class="eyebrow">Interfaces & ecosystem</p><h2>Designed to live inside an existing workshop.</h2></div></div><div class="cluster">{product.integration.map((item:string) => <span class="pill">{item}</span>)}</div></div></section>}
+
+  <section class="section"><div class="container"><div class="section-heading"><div><p class="eyebrow">See the system</p><h2>Video and process demonstration.</h2><p>Video integration is isolated from page content so the existing Cloudflare Stream UID map can be imported without rewriting the product pages.</p></div></div><VideoFrame title={video?.title ?? `${product.name} demonstration`} uid={video?.uid} source={video?.source ?? product.source} /></div></section>
+
+  {storyMatches.length > 0 && <section class="section section--surface"><div class="container"><div class="section-heading"><div><p class="eyebrow">Customer evidence</p><h2>Results associated with this part of the stack.</h2></div></div><div class="grid grid--2">{storyMatches.map((story:any) => <StoryCard story={story} />)}</div></div></section>}
+
+  {related.length > 0 && <section class="section"><div class="container"><div class="section-heading"><div><p class="eyebrow">Related products</p><h2>Usually part of a wider architecture.</h2></div></div><div class="product-grid">{related.map((item:any) => <ProductCard product={item} />)}</div></div></section>}
+  <CtaPanel title={`Is ${product.name} the right fit for your process?`} text="Share your machine list, part mix, interfaces and autonomy target. Qualification should start from the production constraint, not from a catalogue code." />
+</BaseLayout>

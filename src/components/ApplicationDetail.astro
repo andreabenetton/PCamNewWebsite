@@ -1,0 +1,22 @@
+---
+import PageHero from './PageHero.astro';
+import ProductCard from './ProductCard.astro';
+import StoryCard from './StoryCard.astro';
+import CtaPanel from './CtaPanel.astro';
+import { products } from '../data/products';
+import { stories } from '../data/stories';
+
+const { title, eyebrow, lead, symptoms = [], designPrinciples = [], productSlugs = [], proofSlugs = [], workflow = [] } = Astro.props;
+const selected = productSlugs.map((slug: string) => products.find((p) => p.slug === slug)).filter(Boolean);
+const proof = proofSlugs.map((slug:string) => stories.find((s) => s.slug === slug)).filter(Boolean);
+---
+<PageHero eyebrow={eyebrow} title={title} lead={lead} crumbs={[{label:'Applications',href:'/en/applications/'},{label:title}]} actions={[{label:'Discuss your process',href:'/en/contact/'}]} />
+<section class="section"><div class="container grid grid--2" style="gap:70px;align-items:start">
+  <div><p class="eyebrow">Typical symptoms</p><h2 style="font-size:clamp(2rem,4vw,3.5rem)">When this becomes worth solving.</h2></div>
+  <div class="feature-list">{symptoms.map((item:string)=><div class="feature-item">{item}</div>)}</div>
+</div></section>
+<section class="section section--dark"><div class="container"><div class="section-heading"><div><p class="eyebrow">Engineering approach</p><h2>Design for process reliability, not a showroom demo.</h2></div></div><div class="grid grid--3">{designPrinciples.map((item:any)=><div class="domain-item"><strong>{item.title}</strong><span>{item.text}</span></div>)}</div></div></section>
+{workflow.length>0 && <section class="section"><div class="container"><div class="section-heading"><div><p class="eyebrow">Production flow</p><h2>What must be connected.</h2></div></div><div class="architecture"><div class="arch-flow">{workflow.map((item:any)=><div class="arch-node"><strong>{item.title}</strong><span>{item.text}</span></div>)}</div></div></div></section>}
+<section class="section section--surface"><div class="container"><div class="section-heading"><div><p class="eyebrow">Relevant modules</p><h2>Products that can support this application.</h2></div></div><div class="product-grid">{selected.map((p:any)=><ProductCard product={p}/>)}</div></div></section>
+{proof.length>0 && <section class="section"><div class="container"><div class="section-heading"><div><p class="eyebrow">Evidence</p><h2>Reported customer outcomes.</h2></div></div><div class="grid grid--2">{proof.map((s:any)=><StoryCard story={s}/>)}</div></div></section>}
+<CtaPanel />

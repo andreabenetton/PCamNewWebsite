@@ -1,0 +1,37 @@
+---
+import { nav } from '../data/site';
+const { lang = Astro.currentLocale ?? 'en' } = Astro.props;
+const localize = (href: string) => href.replace(/^\/en\//, `/${lang}/`);
+---
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href={`/${lang}/`} aria-label="PCam home">
+      <img src="/brand/pcam-logo.webp" alt="PCam — The automation solution" width="246" height="89" />
+    </a>
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      {nav.map((item) => <a href={localize(item.href)}>{item.label}</a>)}
+    </nav>
+    <div class="header-actions">
+      <span class="lang-chip" aria-label="Current language">{lang.toUpperCase()} <span aria-hidden="true">·</span></span>
+      <a class="btn btn--outline" href={`/${lang}/support/`}>Customer support</a>
+      <a class="btn btn--primary" href={`/${lang}/contact/`}>Talk to an engineer</a>
+      <button class="mobile-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav" data-open="false" aria-label="Mobile navigation">
+    {nav.map((item) => <a href={localize(item.href)}>{item.label}</a>)}
+    <a href={`/${lang}/support/`}>Customer support</a>
+    <a href={`/${lang}/contact/`}>Talk to an engineer</a>
+  </nav>
+</header>
+<script>
+  const toggle = document.querySelector('.mobile-toggle');
+  const mobileNav = document.querySelector('#mobile-nav');
+  toggle?.addEventListener('click', () => {
+    const open = mobileNav?.getAttribute('data-open') === 'true';
+    mobileNav?.setAttribute('data-open', String(!open));
+    toggle.setAttribute('aria-expanded', String(!open));
+  });
+</script>
