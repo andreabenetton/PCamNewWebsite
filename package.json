@@ -32,6 +32,6 @@
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "typescript": "^6.0.2",
-    "wrangler": "^4.0.0"
+    "wrangler": "^4.131.0"
   }
 }
